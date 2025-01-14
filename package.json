@@ -1,0 +1,19 @@
+{
+  "name": "e-commerce",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/tailwind": "^5.1.4",
+    "@astrojs/vue": "^5.0.4",
+    "astro": "^5.1.6",
+    "tailwindcss": "^3.4.17",
+    "vue": "^3.5.13"
+  }
+}
