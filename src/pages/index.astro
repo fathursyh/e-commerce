@@ -1,9 +1,24 @@
 ---
 import 'src/assets/css/global.css';
 import MainLayout from '../layouts/MainLayout.astro';
+import CustomCardReact from '@/react-components/composables/ProductCard';
 import ThemeController from '@/react-components/composables/ThemeController';
+import Utility from 'src/utility';
+const product = {
+	title: 'Hoodie Premium',
+	image: 'https://cdn.pixabay.com/photo/2024/02/28/07/42/european-shorthair-8601492_640.jpg',
+	price: Utility.localCurency(20000),
+	desc: 'seru ini.',
+	stock: 12,
+}
 ---
 
 <MainLayout>
 	<ThemeController client:idle />
+	<div class="h-30 w-screen grid grid-cols-4 p-10 place-items-center">
+		<CustomCardReact className="border border-gray-500 shadow-md w-[260px]" data={product}/>
+		<CustomCardReact className="border border-gray-500 shadow-md w-[260px]" data={product}/>
+		<CustomCardReact className="border border-gray-500 shadow-md w-[260px]" data={product}/>
+		<CustomCardReact className="border border-gray-500 shadow-md w-[260px]" data={product}/>
+	</div>
 </MainLayout>
