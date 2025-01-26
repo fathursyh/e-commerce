@@ -1,0 +1,11 @@
+---
+import CustomCarousel from "@/react-components/composables/CustomCarousel";
+const images = [
+    'https://www.vets4pets.com/siteassets/species/cat/kitten/cat-and-kitten-snuggling.jpg',
+    'https://images.aeonmedia.co/images/4feda9d0-bdb6-464f-88e3-b70ae02578fe/essay-wood-cats-149626371.jpg?width=3840&quality=75&format=auto',
+]
+---
+
+<div class="w-[50%] mx-auto">
+    <CustomCarousel client:visible imageLink={images} />
+</div>

@@ -1,9 +1,9 @@
 ---
-import WelcomeHome from '@components/WelcomeHome.vue';
+import 'src/assets/css/global.css';
 import MainLayout from '../layouts/MainLayout.astro';
-
+import ThemeController from '@/react-components/composables/ThemeController';
 ---
 
 <MainLayout>
-	 <WelcomeHome client:load fromAstro="ganteng" />
+	<ThemeController client:idle />
 </MainLayout>
