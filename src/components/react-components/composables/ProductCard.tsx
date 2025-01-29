@@ -31,7 +31,7 @@ export default function ProductCard({ className, data} : CardProps) {
       </CardHeader>
       <CardContent className="pb-0">
         <div className="grid grid-rows-2 gap-2">
-          <Button>Buy</Button>
+          <Button variant={'default'}>Buy</Button>
         <p className="text-center text-gray-500 text-sm">Stock : <span className="text-blue-500 font-medium">{data?.stock}</span></p>
         </div>
       </CardContent>

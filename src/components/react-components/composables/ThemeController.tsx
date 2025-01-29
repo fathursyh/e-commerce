@@ -1,13 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ThemeController() {
     const [isChecked, setIsChecked] = useState(false);
+	useEffect(()=>{
+		(localStorage.getItem('theme') === 'luxury') && setIsChecked(true)
+	}, [])
     const switchTheme = () : void => {
         const html = document.documentElement;
         if(!isChecked) {
-            html.classList.add('dark');
+            html.dataset.theme = 'luxury'
+			localStorage.setItem('theme', 'luxury');
         } else {
-            html.classList.remove('dark');
+			html.dataset.theme = 'winter'
+			localStorage.setItem('theme', 'winter');
         }
         setIsChecked((value) => !value);
     }

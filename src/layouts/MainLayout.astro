@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" >
+<html lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
@@ -22,3 +22,13 @@
 		scrollbar-gutter: auto !important;
 	}
 </style>
+
+<script>
+	function getTheme() {
+		document.documentElement.dataset.theme = localStorage.getItem('theme') || 'winter';
+	}
+
+	window.onload = function() {
+		getTheme();
+	}
+</script>
