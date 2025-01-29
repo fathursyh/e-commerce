@@ -1,12 +1,13 @@
 ---
-import 'src/assets/css/global.css';
 import MainLayout from '../layouts/MainLayout.astro';
-import ThemeController from '@/react-components/composables/ThemeController';
-
 ---
+<meta property="og:title" content="Premium stuff shop" />
+<meta property="og:type" content="website" />
+<meta property="og:description" content="Welcome to F-shop, where we have everything that you need." />
+<meta property="og:image" content="https://www.example.com/_astro/seo-banner.BZD7kegZ.webp">
+
+<meta property="og:image:alt" content="F-shop Image">
 
 <MainLayout>
-	<ThemeController client:load />
-	<div class="h-30 w-screen grid grid-cols-4 p-10 place-items-center">
-	</div>
+	
 </MainLayout>

@@ -8,8 +8,3 @@
     padding: 0;
     font-family: 'Poppins';
 }
-
-
-.btn {
-  @apply rounded
-}

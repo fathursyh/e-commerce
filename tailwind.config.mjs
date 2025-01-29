@@ -12,15 +12,11 @@ export default {
 		logs: false,
 		themes: [
 			{
-				autumn: {
-					...require("daisyui/src/theming/themes")["autumn"],	
-					primary: "#9CAFAA",
-					secondary: "#D6DAC8",
-					accent: "#EFBC9B",
-					neutral: "#FBF3D5",
+				light: {
+					...require("daisyui/src/theming/themes")["light"],	
 				},
-				luxury: {
-					...require("daisyui/src/theming/themes")["luxury"],	
+				dark: {
+					...require("daisyui/src/theming/themes")["dark"],	
 				}
 			}
 		],

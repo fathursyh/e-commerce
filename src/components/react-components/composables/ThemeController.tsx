@@ -3,27 +3,27 @@ import { useEffect, useState } from "react";
 export default function ThemeController() {
     const [isChecked, setIsChecked] = useState(false);
 	useEffect(()=>{
-		(localStorage.getItem('theme') === 'luxury') && setIsChecked(true)
+		(localStorage.getItem('theme') === 'dark') && setIsChecked(true)
 	}, [])
     const switchTheme = () : void => {
         const html = document.documentElement;
         if(!isChecked) {
-            html.dataset.theme = 'luxury'
-			localStorage.setItem('theme', 'luxury');
+            html.dataset.theme = 'dark'
+			localStorage.setItem('theme', 'dark');
         } else {
-			html.dataset.theme = 'winter'
-			localStorage.setItem('theme', 'winter');
+			html.dataset.theme = 'light'
+			localStorage.setItem('theme', 'light');
         }
         setIsChecked((value) => !value);
     }
  
 	return (
-		<label className="swap swap-rotate drop-shadow">
+		<label className="swap swap-rotate drop-shadow btn btn-ghost btn-circle" aria-roledescription="theme toggler">
 			<input type="checkbox" checked={isChecked} onChange={switchTheme} />
 
 			{/* sun icon */}
 			<svg
-				className="swap-on h-6 w-6 fill-white"
+				className="swap-on h-6 w-6 fill-current"
 				xmlns="http://www.w3.org/2000/svg"
 				viewBox="0 0 24 24"
 			>
@@ -32,7 +32,7 @@ export default function ThemeController() {
 
 			{/* moon icon */}
 			<svg
-				className="swap-off h-6 w-6 fill-current"
+				className="swap-off h-5 w-5 fill-current"
 				xmlns="http://www.w3.org/2000/svg"
 				viewBox="0 0 24 24"
 			>
