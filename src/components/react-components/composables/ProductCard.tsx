@@ -6,23 +6,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import type { ProductType } from "src/models/productType";
 import { localCurency } from "src/stores/utility";
 
-interface CardData {
-  title: string,
-  image: string,
-  price: number,
-  desc: string,
-  stock: number,
-}
 interface CardProps {
   className?: string,
-  data?: CardData
+  data?: ProductType
 }
 
 export default function ProductCard({ className, data} : CardProps) {
   return (
     <Card className={className}>
+      <a href={`/products/detail/${data?.id}`}>  
       <img src={data?.image} alt="" />
       <CardHeader className="p-4">
         <CardTitle className="text-base">
@@ -30,6 +25,7 @@ export default function ProductCard({ className, data} : CardProps) {
         </CardTitle>
         <CardDescription className="text-xl text-secondary">{localCurency(data?.price!)}</CardDescription>
       </CardHeader>
+      </a>
       <CardContent className="pb-0">
         <div className="grid grid-rows-2 gap-2">
           <Button variant={'primary'} className="text-white">Buy</Button>

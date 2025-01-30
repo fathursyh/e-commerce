@@ -2,7 +2,7 @@
   <section class="container mx-auto px-6 py-12">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <!-- Product Image -->
-      <div class="bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-500" :class="{'is-updated' : isUpdated, 'translate-y-0' : !isUpdated}">
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-500" :class="{'translate-y-0' : !isUpdated, 'is-updated' : isUpdated}">
         <img
           src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D"
           alt="Product Image"

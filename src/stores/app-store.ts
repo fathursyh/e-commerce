@@ -1,14 +1,12 @@
 import { atom, computed } from 'nanostores'
-export type CardType = {
-  "id": string,
-  "quantity": number
-}
-export const $cart = atom<CardType[]>([]);
+import type { CartType } from 'src/models/productType';
+
+export const $cart = atom<CartType[]>([]);
 export const $totalCart = computed($cart, (arr)=>{
   return arr.length;
 })
 
-export const insertProduct = async(item : CardType) => {
+export const insertProduct = async(item : CartType) => {
   const index = $cart.get().findIndex(cart => cart.id == item.id);
   if(index === -1) {
     $cart.set([...$cart.get(), item]);

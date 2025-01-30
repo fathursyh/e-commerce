@@ -2,14 +2,8 @@
 import ProductCard from "@/react-components/composables/ProductCard";
 import MainLayout from "../layouts/MainLayout.astro";
 import HomeLanding from "@/astro-components/home-astro/HomeLanding.astro";
-const cardData = {
-  title: "Headset Razer",
-  image:
-    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D",
-  price: 25000,
-  desc: "Cool stuff.",
-  stock: 40,
-};
+const cardData = await fetch('http://localhost:4321/api/getProducts.json').then(item=>item.json()).then(data => data.data);
+// const cardData = null;
 ---
 
 <meta
@@ -38,14 +32,22 @@ const cardData = {
 <MainLayout>
   <HomeLanding />
   <!-- Product Grid -->
-  <section class="container mx-auto px-6 py-12">
+  <section class="container mx-auto px-6 py-12 2xl:min-h-[48vh] xl:min-h-[36vh]">
     <h2 class="text-3xl font-bold text-center mb-8">Featured Products</h2>
+    {
+      cardData ?
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
       <!-- Product Card -->
-      <ProductCard data={cardData} />
-      <ProductCard data={cardData} />
-      <ProductCard data={cardData} />
-      <ProductCard data={cardData} />
+      {
+        (Array.from({length: 4})).map((item : any)=>(
+        <ProductCard data={cardData[0]} />
+        <p class="hidden">{item}</p>
+        ))
+      }
     </div>
+      : 
+      <p class="text-center">Tidak ada produk yang tersedia.</p>
+    }
+
   </section>
 </MainLayout>
