@@ -2,6 +2,9 @@
 import ThemeController from "@/react-components/composables/ThemeController";
 import UserMenu from "@components/astro-components/navigations/UserMenu.astro";
 import NavbarCart from "@components/vue-components/navigations/NavbarCart.vue";
+import { fetchCart } from "src/stores/functions";
+const cart = await fetchCart();
+
 ---
 
 <nav class="navbar bg-base-200 xl:px-36 2xl:px-48" aria-label="navigation">
@@ -9,8 +12,8 @@ import NavbarCart from "@components/vue-components/navigations/NavbarCart.vue";
 		<a class="btn btn-ghost text-xl font-bold" href="/" >F-Shop</a>
 	</div>
 	<div class="flex-none">
-        <ThemeController client:idle />
-		<NavbarCart client:idle />
+		<ThemeController client:idle />
+		<NavbarCart client:idle cartData={cart} />
 		<UserMenu />
 	</div>
 </nav>

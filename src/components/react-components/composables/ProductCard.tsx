@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { localCurency } from "src/stores/app-store";
+import { localCurency } from "src/stores/utility";
 
 interface CardData {
   title: string,

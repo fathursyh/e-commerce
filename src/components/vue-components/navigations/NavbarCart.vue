@@ -20,7 +20,7 @@
             d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
           />
         </svg>
-        <span class="badge badge-sm indicator-item transition-all duration-300" :class="{'scale-125 bg-red-400 text-white' : isUpdated}">{{ cart }}</span>
+        <span class="badge badge-sm indicator-item transition-all duration-300" :class="{'scale-125 bg-red-400 text-white' : isUpdated}">{{ totalCart }}</span>
       </div>
     </div>
     <div
@@ -28,7 +28,7 @@
       class="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow"
     >
       <div class="card-body">
-        <span class="text-lg font-bold">{{ cart }} Items</span>
+        <span class="text-lg font-bold">{{ totalCart }} Items</span>
         <div class="card-actions">
           <button class="btn btn-primary btn-block">
             View cart
@@ -41,10 +41,16 @@
 
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
-  import { $cart } from 'src/stores/app-store';
+  import { $cart, $totalCart } from 'src/stores/app-store';
   import { ref, watch } from 'vue';
+  import type { CardType } from 'src/stores/app-store';
+  const props = defineProps({
+    cartData : {type: Array<CardType>, default: null}
+  })
 
   const cart = useStore($cart);
+  const totalCart = useStore($totalCart);
+  $cart.set(props.cartData);
   const isUpdated = ref(false);
   const cartUpdated = () => {
     isUpdated.value = !isUpdated.value;
@@ -55,6 +61,5 @@
       cartUpdated()
     }, 400);
   })
-
 
 </script>

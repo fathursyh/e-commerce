@@ -26,7 +26,7 @@
             class="w-20 px-3 py-2 border border-gray-300 rounded bg-base-200"
           />
         </div>
-        <span @click="insertProduct">
+        <span @click="insertProduct({id: '3', quantity: item})">
           <slot />
         </span>
       </div>
@@ -36,15 +36,11 @@
 
 <script setup lang="ts">
   import { useStore } from "@nanostores/vue";
-  import { $cart } from "src/stores/app-store";
+  import { $cart, insertProduct } from "src/stores/app-store";
   import { ref, watch, type Ref } from "vue";
   const item: Ref<number> = ref(1);
   const isUpdated = ref(false);
   const cart = useStore($cart);
-
-  const insertProduct = (): void => {
-    $cart.set(cart.value + item.value);
-  };
 
   watch(cart, () =>{
     isUpdated.value = true;
