@@ -1,13 +1,50 @@
 ---
-import MainLayout from '../layouts/MainLayout.astro';
+import ProductCard from "@/react-components/composables/ProductCard";
+import MainLayout from "../layouts/MainLayout.astro";
+import HomeLanding from "@/astro-components/home-astro/HomeLanding.astro";
+const cardData = {
+  title: "Headset Razer",
+  image:
+    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D",
+  price: 25000,
+  desc: "Cool stuff.",
+  stock: 40,
+};
 ---
-<meta property="og:title" content="Premium stuff shop" />
-<meta property="og:type" content="website" />
-<meta property="og:description" content="Welcome to F-shop, where we have everything that you need." />
-<meta property="og:image" content="https://www.example.com/_astro/seo-banner.BZD7kegZ.webp">
 
-<meta property="og:image:alt" content="F-shop Image">
+<meta
+  property="og:title"
+  content="Premium stuff shop"
+/>
+<meta
+  property="og:type"
+  content="website"
+/>
+<meta
+  property="og:description"
+  content="Welcome to F-shop, where we have everything that you need."
+/>
+<meta
+  property="og:image"
+  content="https://www.example.com/_astro/seo-banner.BZD7kegZ.webp"
+/>
+
+<meta
+  property="og:image:alt"
+  content="F-shop Image"
+/>
+<title>F-Shop - Home</title>
 
 <MainLayout>
-	
+  <HomeLanding />
+  <!-- Product Grid -->
+  <section class="container mx-auto px-6 py-12">
+    <h2 class="text-3xl font-bold text-center mb-8">Featured Products</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Product Card -->
+      <ProductCard data={cardData} />
+      <ProductCard data={cardData} />
+      <ProductCard data={cardData} />
+    </div>
+  </section>
 </MainLayout>

@@ -6,11 +6,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { localCurency } from "src/stores/app-store";
 
 interface CardData {
   title: string,
   image: string,
-  price: string,
+  price: number,
   desc: string,
   stock: number,
 }
@@ -27,11 +28,11 @@ export default function ProductCard({ className, data} : CardProps) {
         <CardTitle className="text-base">
           <p>{data?.title}</p>
         </CardTitle>
-        <CardDescription className="text-xl">{data?.price}</CardDescription>
+        <CardDescription className="text-xl text-secondary">{localCurency(data?.price!)}</CardDescription>
       </CardHeader>
       <CardContent className="pb-0">
         <div className="grid grid-rows-2 gap-2">
-          <Button variant={'default'}>Buy</Button>
+          <Button variant={'primary'} className="text-white">Buy</Button>
         <p className="text-center text-gray-500 text-sm">Stock : <span className="text-blue-500 font-medium">{data?.stock}</span></p>
         </div>
       </CardContent>

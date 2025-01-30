@@ -1,5 +1,7 @@
 ---
+import WebFooter from '@/astro-components/composables/WebFooter.astro';
 import WebNavbar from '@/astro-components/navigations/WebNavbar.astro';
+import { Toaster } from '@/components/ui/toaster';
 import 'src/assets/css/global.css';
 ---
 <!doctype html>
@@ -16,6 +18,9 @@ import 'src/assets/css/global.css';
 			<WebNavbar />
 		</header>
 		<slot />
+		<Toaster client:idle />
+
+		<WebFooter />
 	</body>
 </html>
 

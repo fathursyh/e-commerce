@@ -1,9 +1,15 @@
 ---
+import ProductDetail from "@/vue-components/products/ProductDetail.vue";
 import MainLayout from "src/layouts/MainLayout.astro";
-
+import SimpleToast from "@/react-components/composables/SimpleToast";
+import { Button } from "@/components/ui/button";
 
 ---
 
 <MainLayout>
-
+    <ProductDetail client:load>
+        <SimpleToast text="Produk berhasil ditambahkan!" client:idle>
+            <Button variant={'primary'} className="w-full">Add to cart</Button>
+        </SimpleToast>
+    </ProductDetail>
 </MainLayout>
