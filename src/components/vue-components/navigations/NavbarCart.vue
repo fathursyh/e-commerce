@@ -30,8 +30,9 @@
       <div class="card-body">
         <span class="text-lg font-bold">8 Items</span>
         <span class="text-info">Subtotal: $999</span>
+        <span class="text-info">{{ counter }}</span>
         <div class="card-actions">
-          <button class="btn btn-primary btn-block">
+          <button class="btn btn-primary btn-block" @click="$counter.set(counter+1)">
             View cart
           </button>
         </div>
@@ -39,3 +40,9 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+  import { useStore } from '@nanostores/vue'
+  import { $counter } from 'src/stores/app-store';
+  const counter = useStore($counter);
+</script>
