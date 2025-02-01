@@ -39,9 +39,8 @@ const cardData = await fetch('http://localhost:4321/api/getProducts.json').then(
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
       <!-- Product Card -->
       {
-        (Array.from({length: 4})).map((item : any)=>(
-        <ProductCard data={cardData[0]} />
-        <p class="hidden">{item}</p>
+        cardData.map((item : any)=>(
+        <ProductCard data={item} client:idle />
         ))
       }
     </div>
