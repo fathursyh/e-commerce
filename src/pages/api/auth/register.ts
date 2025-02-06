@@ -2,7 +2,7 @@ export const prerender = false;
 import type { APIRoute } from "astro";
 import { supabase } from "src/lib/database";
 
-export const POST: APIRoute = async ({ request, redirect }) => {
+export const POST: APIRoute = async ({ request }) => {
   const {email, password} = await request.json();
 
   if (!email || !password) {
@@ -18,5 +18,5 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     return new Response(error.message, { status: 500 });
   }
 
-  return redirect("/");
+  return new Response('Registered successfully.', { status: 200 });
 };
