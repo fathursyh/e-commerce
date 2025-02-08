@@ -1,0 +1,11 @@
+---
+import RegisterForm from "@/vue-components/forms/RegisterForm.vue";
+import MainLayout from "src/layouts/MainLayout.astro";
+
+
+---
+<MainLayout>
+  <div class="flex items-center justify-center min-h-[75vh]">
+    <RegisterForm client:load />
+</div>
+</MainLayout>
