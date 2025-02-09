@@ -2,9 +2,10 @@
 import ThemeController from "@/react-components/composables/ThemeController";
 import UserMenu from "@components/astro-components/navigations/UserMenu.astro";
 import NavbarCart from "@components/vue-components/navigations/NavbarCart.vue";
+import { SquareArrowOutUpRight } from "lucide-react";
 import { fetchCart } from "src/stores/functions";
 const cart = await fetchCart();
-
+const auth = false;
 ---
 
 <nav class="navbar bg-base-200 xl:px-36 2xl:px-48" aria-label="navigation">
@@ -14,6 +15,11 @@ const cart = await fetchCart();
 	<div class="flex-none">
 		<ThemeController client:idle />
 		<NavbarCart client:idle cartData={cart} />
-		<UserMenu />
+		{
+			auth ?
+			<UserMenu />
+			:
+			<a href="/login" class="ms-4 inline-block hover:underline rounded-full">Login <SquareArrowOutUpRight className="w-4 h-4 inline" /> </a>
+		}
 	</div>
 </nav>
