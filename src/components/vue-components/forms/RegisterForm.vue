@@ -1,7 +1,7 @@
 <template>
   <form
-    class="px-14 py-12 rounded-lg shadow-md w-1/3 bg-base-100"
-    @submit.prevent="handleRegister"
+    class="px-14 py-12 rounded-lg shadow-md w-1/3 bg-base-100" novalidate
+    @submit.prevent="handleRegister" 
   >
     <h2 class="text-xl font-bold mb-4 text-center">Register</h2>
 

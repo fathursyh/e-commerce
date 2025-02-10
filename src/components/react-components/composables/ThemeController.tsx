@@ -19,7 +19,7 @@ export default function ThemeController() {
  
 	return (
 		<label className="swap swap-rotate drop-shadow btn btn-ghost btn-circle" aria-roledescription="theme toggler">
-			<input type="checkbox" checked={isChecked} onChange={switchTheme} />
+			<input id="themeToggler" type="checkbox" checked={isChecked} onChange={switchTheme} />
 
 			{/* sun icon */}
 			<svg

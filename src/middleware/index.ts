@@ -5,7 +5,6 @@ import { supabase } from "src/lib/database";
 export const onRequest = defineMiddleware(
   async (context: APIContext, next: MiddlewareNext) => {
     if (!context.url.pathname.startsWith("/api/")) {
-      console.log(context.cookies.get('key'));
       if (context.url.pathname !== "/login") {
         const accessToken = context.cookies.get("sb-access-token");
         const refreshToken = context.cookies.get("sb-refresh-token");
