@@ -40,13 +40,12 @@ const cardData = await fetch('http://localhost:4321/api/getProducts.json').then(
       <!-- Product Card -->
       {
         cardData.map((item : any)=>(
-        <ProductCard data={item} client:idle />
+        <ProductCard data={item} client:idle className="overflow-hidden" />
         ))
       }
     </div>
       : 
       <p class="text-center">Tidak ada produk yang tersedia.</p>
     }
-
   </section>
 </MainLayout>

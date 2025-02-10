@@ -6,7 +6,11 @@ import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
 
 export default defineConfig({
-  trailingSlash: 'ignore',
   
+  trailingSlash: 'ignore',
+  output: 'server',
+  security: {
+    checkOrigin: true
+  },
   integrations: [vue(), tailwind(), react() ]
 });

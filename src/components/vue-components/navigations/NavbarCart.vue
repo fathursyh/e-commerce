@@ -43,9 +43,9 @@
   import { useStore } from '@nanostores/vue'
   import { $cart, $totalCart } from 'src/stores/app-store';
   import { ref, watch } from 'vue';
-  import type { CardType } from 'src/stores/app-store';
+  import type {CartType} from 'src/models/productType';
   const props = defineProps({
-    cartData : {type: Array<CardType>, default: null}
+    cartData : {type: Array<CartType>, default: null}
   })
 
   const cart = useStore($cart);
