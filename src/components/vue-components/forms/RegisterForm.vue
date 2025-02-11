@@ -1,7 +1,8 @@
 <template>
   <form
-    class="px-14 py-12 rounded-lg shadow-md w-1/3 bg-base-100" novalidate
-    @submit.prevent="handleRegister" 
+    class="px-14 py-12 rounded-lg shadow-md w-1/3 bg-base-100"
+    novalidate
+    @submit.prevent="handleRegister"
   >
     <h2 class="text-xl font-bold mb-4 text-center">Register</h2>
 
@@ -15,10 +16,12 @@
         name="name"
         type="text"
         class="input input-bordered w-full"
-        :class="{'border-red-500 focus:outline-red-500': errorMessages.name.length > 0}"
+        :class="{
+          'border-red-500 focus:outline-red-500': errorMessages.name.length > 0,
+        }"
         placeholder="Your Name"
         required
-        @change="errorMessages.name=''"
+        @change="errorMessages.name = ''"
       />
       <p class="text-sm text-red-600 mt-2">{{ errorMessages.name }}</p>
     </div>
@@ -33,10 +36,13 @@
         name="email"
         type="email"
         class="input input-bordered w-full"
-        :class="{'border-red-500 focus:outline-red-500': errorMessages.email.length > 0}"
+        :class="{
+          'border-red-500 focus:outline-red-500':
+            errorMessages.email.length > 0,
+        }"
         placeholder="Your Email"
         required
-        @change="errorMessages.email=''"
+        @change="errorMessages.email = ''"
       />
       <p class="text-sm text-red-600 mt-2">{{ errorMessages.email }}</p>
     </div>
@@ -51,15 +57,20 @@
         name="password"
         type="password"
         class="input input-bordered w-full"
-        :class="{'focus:outline-red-500 border-red-500': errorMessages.password.length > 0}"
+        :class="{
+          'focus:outline-red-500 border-red-500':
+            errorMessages.password.length > 0,
+        }"
         placeholder="Your Password"
         required
-        @change="errorMessages.password=''"
+        @change="errorMessages.password = ''"
       />
       <p class="text-sm text-red-600 mt-2">{{ errorMessages.password }}</p>
     </div>
     <div class="mb-4">
-      <label class="block text-sm font-medium text-gray-500 mb-1" for="confirmPassword"
+      <label
+        class="block text-sm font-medium text-gray-500 mb-1"
+        for="confirmPassword"
         >Confirm Password</label
       >
       <input
@@ -68,52 +79,71 @@
         name="confirmPassword"
         type="password"
         class="input input-bordered w-full"
-        :class="{'focus:outline-red-500 border-red-500': errorMessages.confirmPassword.length > 0}"
+        :class="{
+          'focus:outline-red-500 border-red-500':
+            errorMessages.confirmPassword.length > 0,
+        }"
         placeholder="Your Password"
         required
-        @change="errorMessages.confirmPassword=''"
+        @change="errorMessages.confirmPassword = ''"
       />
-      <p class="text-sm text-red-600 mt-2">{{ errorMessages.confirmPassword }}</p>
+      <p class="text-sm text-red-600 mt-2">
+        {{ errorMessages.confirmPassword }}
+      </p>
     </div>
-
-    <button type="submit" class="btn btn-primary w-full mt-4">Register</button>
+    <button ref="submitButton" type="submit" class="btn btn-primary w-full mt-4">Register</button>
+    <p class="text-sm mt-2 text-center">Already have an account? <a href="/login" class="text-blue-500 hover:underline font-medium" data-astro-prefetch>Login.</a></p>
+    <div v-if="isSuccess">
+      <slot />
+    </div>
   </form>
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue";
-import { actions, isInputError } from "astro:actions";
+  import { reactive, ref } from "vue";
+  import { actions, isInputError } from "astro:actions";
+  const isSuccess = ref(false);
+  const submitButton = ref();
+  const input = reactive({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-const input = reactive({
-  name: "",
-  email: "",
-  password: "",
-  confirmPassword: '',
-});
+  const errorMessages = reactive({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-const errorMessages = reactive({
-  name: "",
-  email: "",
-  password: "",
-  confirmPassword: '',
-});
-
-const handleRegister = async () => {
-  const { error } = await actions.auth.createUser(input);
-  if (isInputError(error)) {
-    // Handle input errors.
-    if (error.fields.name) {
-      errorMessages.name = error.fields.name.join(" ");
+  const handleRegister = async () => {
+    submitButton.value.disabled = true;
+    const { error } = await actions.auth.createUser(input);
+    if (error) {
+      submitButton.value.disabled = false;
+    } else {
+      isSuccess.value = true;
+      setTimeout(() => {
+        window.location.replace("/login");
+      }, 600);
     }
-    if (error.fields.email) {
-      errorMessages.email = error.fields.email.join(" ");
+    if (isInputError(error)) {
+      submitButton.value.disabled = false;
+      // Handle input errors.
+      if (error.fields.name) {
+        errorMessages.name = error.fields.name.join(" ");
+      }
+      if (error.fields.email) {
+        errorMessages.email = error.fields.email.join(" ");
+      }
+      if (error.fields.password) {
+        errorMessages.password = error.fields.password.join(" ");
+      }
+      if (error.fields.confirmPassword) {
+        errorMessages.confirmPassword = error.fields.confirmPassword.join(" ");
+      }
     }
-    if (error.fields.password) {
-      errorMessages.password = error.fields.password.join(" ");
-    }
-    if (error.fields.confirmPassword) {
-      errorMessages.confirmPassword = error.fields.confirmPassword.join(" ");
-    }
-  }
-};
+  };
 </script>

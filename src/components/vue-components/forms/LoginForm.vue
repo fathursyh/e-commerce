@@ -19,7 +19,7 @@
           :class="{'border-red-500 focus:outline-red-500': errorMessages.email.length > 0}"
           placeholder="Your Email"
           required
-          autocomplete="off"
+          autocomplete="on"
           @change="errorMessages.email=''"
         />
         <p class="text-sm text-red-600 mt-2">{{ errorMessages.email }}</p>
@@ -42,14 +42,21 @@
         />
         <p class="text-sm text-red-600 mt-2">{{ errorMessages.password }}</p>
       </div>
-      <button type="submit" class="btn btn-primary w-full mt-4">Login</button>
+      <button ref="submitButton" type="submit" class="btn btn-primary w-full mt-4">
+        Login
+      </button>
+      <p class="text-sm mt-2 text-center">You have no account? <a href="/register" class="text-blue-500 hover:underline font-medium" data-astro-prefetch>Register.</a></p>
+      <div v-if="isSuccess">
+        <slot />
+      </div>
     </form>
   </template>
   
   <script setup lang="ts">
-  import { reactive } from "vue";
+  import { reactive, ref } from "vue";
   import { actions, isInputError } from "astro:actions";
-  
+  const isSuccess = ref(false);
+  const submitButton = ref();
   const input = reactive({
     email: "",
     password: "",
@@ -59,10 +66,21 @@
     email: "",
     password: "",
   });
-  
   const handleLogin = async () => {
+    submitButton.value.disabled = true;
     const { error } = await actions.auth.loginUser(input);
+    if(error) {
+      submitButton.value.disabled = false;
+      errorMessages.email = error.message;
+      errorMessages.password = error.message;
+    } else {
+      isSuccess.value = true;
+      setTimeout(() => {
+        window.location.replace("/");
+      }, 600);
+    }
     if (isInputError(error)) {
+      submitButton.value.disabled = false;
       if (error.fields.email) {
         errorMessages.email = error.fields.email.join(" ");
       }
