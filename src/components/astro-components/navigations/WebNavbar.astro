@@ -3,8 +3,7 @@ import ThemeController from "@/react-components/composables/ThemeController";
 import UserMenu from "@components/astro-components/navigations/UserMenu.astro";
 import NavbarCart from "@components/vue-components/navigations/NavbarCart.vue";
 import { SquareArrowOutUpRight } from "lucide-react";
-import { fetchCart } from "src/stores/functions";
-const cart = await fetchCart();
+const cart = await fetch(import.meta.env.PUBLIC_URL + '/api/getCartData.json').then(data=>data.json()).then(data=>data.data);
 const { auth } = Astro.locals;
 ---
 
