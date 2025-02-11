@@ -17,13 +17,13 @@
         type="text"
         class="input input-bordered w-full"
         :class="{
-          'border-red-500 focus:outline-red-500': errorMessages.name.length > 0,
+          'border-error focus:outline-error': errorMessages.name.length > 0,
         }"
         placeholder="Your Name"
         required
         @change="errorMessages.name = ''"
       />
-      <p class="text-sm text-red-600 mt-2">{{ errorMessages.name }}</p>
+      <p class="text-sm text-error mt-2">{{ errorMessages.name }}</p>
     </div>
 
     <div class="mb-4">
@@ -37,14 +37,14 @@
         type="email"
         class="input input-bordered w-full"
         :class="{
-          'border-red-500 focus:outline-red-500':
+          'border-error focus:outline-error':
             errorMessages.email.length > 0,
         }"
         placeholder="Your Email"
         required
         @change="errorMessages.email = ''"
       />
-      <p class="text-sm text-red-600 mt-2">{{ errorMessages.email }}</p>
+      <p class="text-sm text-error mt-2">{{ errorMessages.email }}</p>
     </div>
 
     <div class="mb-4">
@@ -58,14 +58,14 @@
         type="password"
         class="input input-bordered w-full"
         :class="{
-          'focus:outline-red-500 border-red-500':
+          'focus:outline-error border-error':
             errorMessages.password.length > 0,
         }"
         placeholder="Your Password"
         required
         @change="errorMessages.password = ''"
       />
-      <p class="text-sm text-red-600 mt-2">{{ errorMessages.password }}</p>
+      <p class="text-sm text-error mt-2">{{ errorMessages.password }}</p>
     </div>
     <div class="mb-4">
       <label
@@ -80,14 +80,14 @@
         type="password"
         class="input input-bordered w-full"
         :class="{
-          'focus:outline-red-500 border-red-500':
+          'focus:outline-error border-error':
             errorMessages.confirmPassword.length > 0,
         }"
         placeholder="Your Password"
         required
         @change="errorMessages.confirmPassword = ''"
       />
-      <p class="text-sm text-red-600 mt-2">
+      <p class="text-sm text-error mt-2">
         {{ errorMessages.confirmPassword }}
       </p>
     </div>

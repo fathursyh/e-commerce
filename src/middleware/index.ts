@@ -5,12 +5,16 @@ import { supabase } from "src/lib/database";
 export const onRequest = defineMiddleware(
   async (context: APIContext, next: MiddlewareNext) => {
     if (!context.url.pathname.startsWith("/api/")) {
+      
       if (context.url.pathname !== "/login") {
         const accessToken = context.cookies.get("sb-access-token");
         const refreshToken = context.cookies.get("sb-refresh-token");
 
         if (!accessToken || !refreshToken) {
           context.locals.auth = false;
+          if(context.url.pathname === '/profile') {
+            return context.redirect('/login');
+          }
           return next();
         }
 

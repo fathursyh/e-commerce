@@ -6,7 +6,6 @@ import { supabase } from 'src/lib/database';
 const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-])[A-Z][\w\W]{7,}$/;
 export const auth = {
   // REGISTER ACTION
-  // TODO: make toast or alert of registering
   createUser: defineAction({
     input: z.object({
       name: z.string().min(1, 'Name is required.'),
@@ -35,7 +34,6 @@ export const auth = {
     }
   }),
   // LOGIN ACTION
-  // TODO: make toast or alert of logged in
   loginUser: defineAction({
     input: z.object({
       email: z.string().min(5, 'Email is Required.').email(),

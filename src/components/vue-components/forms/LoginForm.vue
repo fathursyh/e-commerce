@@ -16,13 +16,13 @@
           name="email"
           type="email"
           class="input input-bordered w-full"
-          :class="{'border-red-500 focus:outline-red-500': errorMessages.email.length > 0}"
+          :class="{'border-error focus:outline-error': errorMessages.email.length > 0}"
           placeholder="Your Email"
           required
           autocomplete="on"
           @change="errorMessages.email=''"
         />
-        <p class="text-sm text-red-600 mt-2">{{ errorMessages.email }}</p>
+        <p class="text-sm text-error mt-2">{{ errorMessages.email }}</p>
       </div>
   
       <div class="mb-4">
@@ -35,12 +35,12 @@
           name="password"
           type="password"
           class="input input-bordered w-full"
-          :class="{'focus:outline-red-500 border-red-500': errorMessages.password.length > 0}"
+          :class="{'focus:outline-error border-error': errorMessages.password.length > 0}"
           placeholder="Your Password"
           required
           @change="errorMessages.password=''"
         />
-        <p class="text-sm text-red-600 mt-2">{{ errorMessages.password }}</p>
+        <p class="text-sm text-error mt-2">{{ errorMessages.password }}</p>
       </div>
       <button ref="submitButton" type="submit" class="btn btn-primary w-full mt-4">
         Login
