@@ -3,14 +3,17 @@ export const prerender = false;
 import { Button } from "@/components/ui/button";
 import SimpleToast from "@/react-components/composables/SimpleToast";
 import ProductDetail from "@/vue-components/products/ProductDetail.vue";
+import { actions } from "astro:actions";
 import MainLayout from "src/layouts/MainLayout.astro";
+import type { ProductType } from "src/models/productType";
 const {id} = Astro.params;
-console.log(id)
+const {data} = await Astro.callAction(actions.product.getProductDetail, {id_product: id!});
+const product : ProductType = Object.assign(data!)
 ---
 
 <MainLayout>
   <div class="2xl:min-h-[81vh] xl:min-h-[77vh]">
-    <ProductDetail client:load>
+    <ProductDetail product={product} client:load>
         <SimpleToast text="Produk berhasil ditambahkan!" client:idle>
             <Button variant={'primary'} className="w-full">Add to cart</Button>
         </SimpleToast>
