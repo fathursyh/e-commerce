@@ -3,8 +3,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel"
 
 type CarouselProps = {
@@ -14,7 +12,7 @@ type CarouselProps = {
 export default function CustomCarousel({imageLink} : CarouselProps) {
     const listItems = imageLink.map(link =>
     <CarouselItem key={link} className="px-0">
-      <img src={link} alt="" referrerPolicy='no-referrer' className='w-full h-full object-cover' />
+      <img srcSet={link} alt="carousel image" referrerPolicy='no-referrer' className='w-full h-full object-cover' loading='lazy' decoding='async'/>
     </CarouselItem>
   );
   return (
@@ -28,8 +26,6 @@ export default function CustomCarousel({imageLink} : CarouselProps) {
       <CarouselContent>
         {listItems}
       </CarouselContent>
-      <CarouselPrevious className='translate-x-20 bg-white/60' />
-      <CarouselNext className='-translate-x-20 bg-white/60' />
     </Carousel>
   )
 }

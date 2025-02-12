@@ -14,7 +14,7 @@ export const product = {
     featuredProduct: defineAction({
         handler: async () : Promise<object[]> => {
             const { data, error } = await supabase
-            .from('products').select().eq('featured', true);
+            .from('products').select().eq('featured', true).limit(3);
             if(error) {return []}
             return data;
         }

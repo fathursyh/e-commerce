@@ -1,18 +1,25 @@
 ---
+import HomeCarousel from "./HomeCarousel.astro";
+
 
 ---
   <!-- Hero Section -->
-  <section class="bg-base-200 text-base py-20 shadow-md">
-    <div class="container mx-auto text-center">
-      <h1 class="2xl:text-5xl xl:text-4xl text-xl font-bold mb-4">Welcome to F-Shop</h1>
-      <p class="text-xl mb-8">
-        Discover the latest trends in fashion, electronics, and more.
-      </p>
-      <a
+  <section class="bg-gradient-to-b from-base-200 to-base-300 text-base py-20 shadow-md relative h-96">
+    <div class="absolute bg-purple-300 w-full h-full top-0 left-0 overflow-hidden">
+      <HomeCarousel />
+    </div>
+    <div class="w-full h-full absolute top-0 left-0 grid place-content-center bg-black/40 backdrop-blur">
+      <div class="container mx-auto text-center text-white">
+        <h1 class="2xl:text-5xl xl:text-4xl text-xl font-bold mb-4">Welcome to F-Shop</h1>
+        <p class="text-xl mb-8">
+          Discover the latest trends in fashion, electronics, and more.
+        </p>
+        <a
         href="/products"
         class="bg-primary text-white py-3 px-6 rounded-full font-semibold hover:bg-primary/70"
         data-astro-prefetch="tap"
         >Shop Now</a
-      >
+        >
+      </div>
     </div>
   </section>

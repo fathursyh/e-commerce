@@ -2,11 +2,11 @@
   <section class="container mx-auto px-6 py-12">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <!-- Product Image -->
-      <div class="bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-500" :class="{'translate-y-0' : !isUpdated, 'is-updated' : isUpdated}">
+      <div class="h-full rounded-lg shadow-lg overflow-hidden transition-all duration-500" :class="{'translate-y-0' : !isUpdated, 'is-updated' : isUpdated}">
         <img
           :src=product.image
           alt="Product Image"
-          class="w-full h-auto object-cover"
+          class="w-full h-96 object-cover"
         />
       </div>
       <!-- Product Details -->
