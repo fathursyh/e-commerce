@@ -6,7 +6,7 @@ export const product = {
         handler: async () : Promise<object[]> => {
             const { data, error } = await supabase
             .from('products').select().eq('featured', true);
-            if(error) return [];
+            if(error) {return []}
             return data;
         }
     }),

@@ -1,10 +1,7 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 import HomeLanding from "@/astro-components/home-astro/HomeLanding.astro";
-import ProductCard from "@components/react-components/composables/ProductCard";
-import { actions } from "astro:actions";
-const {data} = await Astro.callAction(actions.product.featuredProduct, {});
-// const cardData = null;
+import FeaturedProduct from '@components/react-components/home-react/FeaturedProducts';
 ---
 
 <meta
@@ -33,20 +30,8 @@ const {data} = await Astro.callAction(actions.product.featuredProduct, {});
 <MainLayout>
   <HomeLanding />
   <!-- Product Grid -->
-  <section class="container mx-auto px-6 py-12 2xl:min-h-[48vh] xl:min-h-[36vh]">
+  <section class="container w-fit mx-auto px-6 py-12 2xl:min-h-[48vh] xl:min-h-[36vh]">
     <h2 class="text-3xl font-bold text-center mb-8">Featured Products</h2>
-    {
-      data ?
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-
-      {
-        data.map((item : any)=>(
-          <ProductCard data={item} client:idle />
-        ))
-      }
-    </div>
-      : 
-      <p class="text-center">Tidak ada produk yang tersedia.</p>
-    }
+    <FeaturedProduct client:load />
   </section>
 </MainLayout>
