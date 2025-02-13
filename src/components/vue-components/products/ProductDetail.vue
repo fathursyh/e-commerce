@@ -7,6 +7,7 @@
           :src=product.image
           alt="Product Image"
           class="w-full h-96 object-cover"
+          :class="{'grayscale': product.stock === 0}"
         />
       </div>
       <!-- Product Details -->
@@ -26,7 +27,7 @@
             class="w-20 px-3 py-2 border border-gray-300 rounded bg-base-200"
           />
         </div>
-        <span @click="insertProduct({id: product.id_product, quantity: item})">
+        <span @click="product.stock > 0 && insertProduct({id: product.id_product, quantity: item})">
           <slot />
         </span>
         <p class="text-center mt-2">Stock : {{ product.stock }}</p>
@@ -43,7 +44,7 @@
 import { localCurency } from "src/stores/utility";
 
   defineProps<{
-    product: ProductType
+    product : ProductType
   }>()
 
   const item: Ref<number> = ref(1);

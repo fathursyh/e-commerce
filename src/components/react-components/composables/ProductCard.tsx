@@ -6,21 +6,21 @@ type CardProps = {
 export default function ProductCard({ data }: CardProps) {
   return (
     <div className="card bg-base-100 w-80 shadow-xl">
-        <figure className="border">
           <a href={`/products/detail/${data.id_product}`} data-astro-prefetch>
+        <figure className="border h-52">
           <img
             src={data.image}
             alt="Product Image"
-            className="h-52 w-full object-cover"
+            className="h-full w-full object-cover"
           />
-          </a>
         </figure>
+          </a>
       <div className="card-body">
         <h3 className="text-success">{localCurency(data.price)}</h3>
         <h2 className="card-title">{data.title}</h2>
         <p className="text-sm">{data.description}</p>
         <div className="card-actions justify-end">
-          <a href={`/products/detail/${data.id_product}`} className="btn btn-primary" data-astro-prefetch>Buy Now</a>
+          <a href={`/products/detail/${data.id_product}`} className="btn btn-primary hover:scale-105" data-astro-prefetch>Buy Now</a>
         </div>
       </div>
     </div>

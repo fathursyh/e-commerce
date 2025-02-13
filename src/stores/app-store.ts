@@ -1,7 +1,6 @@
 import { atom, computed } from 'nanostores'
 import type { CartType } from 'src/models/productType';
 
-export const $search = atom<string>('');
 export const $cart = atom<CartType[]>([]);
 export const $totalCart = computed($cart, (arr)=>{
   return arr.length;

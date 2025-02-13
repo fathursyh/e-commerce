@@ -15,7 +15,12 @@ const product : ProductType = Object.assign(data!)
   <div class="2xl:min-h-[81vh] xl:min-h-[77vh]">
     <ProductDetail product={product} client:load>
         <SimpleToast text="Produk berhasil ditambahkan!" client:idle>
+          {
+            product.stock > 0 ?
             <Button variant={'primary'} className="w-full">Add to cart</Button>
+            :
+            <Button variant={'default'} className="w-full btn-disabled">Sold Out</Button>
+          }
         </SimpleToast>
     </ProductDetail>
   </div>
