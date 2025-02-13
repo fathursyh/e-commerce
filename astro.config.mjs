@@ -8,6 +8,11 @@ import react from '@astrojs/react';
 export default defineConfig({
   trailingSlash: 'ignore',
   output: 'server',
+  vite: {
+    server: {
+      hmr: true
+    }
+  },
   security: {
     checkOrigin: true
   },

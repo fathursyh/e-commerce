@@ -18,7 +18,7 @@ export default function ProductCard({ data }: CardProps) {
       <div className="card-body">
         <h3 className="text-success">{localCurency(data.price)}</h3>
         <h2 className="card-title">{data.title}</h2>
-        <p>{data.description}</p>
+        <p className="text-sm">{data.description}</p>
         <div className="card-actions justify-end">
           <a href={`/products/detail/${data.id_product}`} className="btn btn-primary" data-astro-prefetch>Buy Now</a>
         </div>

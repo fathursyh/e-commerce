@@ -3,13 +3,17 @@ import type { ProductType } from "src/models/productType";
 import ProductCard from "@/react-components/composables/ProductCard";
 import { actions } from "astro:actions";
 import MainLayout from "src/layouts/MainLayout.astro";
+import SearchBarProduct from "@/vue-components/products/SearchBarProduct.vue";
 
 const {data} = await Astro.callAction(actions.product.getAllProduct, {});
 const product : ProductType[] = Object.assign(data!)
 ---
 
 <MainLayout>
-    <div class="min-h-[82vh] py-10 xl:px-10 2xl:px-20">
+    <div class="min-h-[82vh] py-8 xl:px-10 2xl:px-20">
+        <div class="xl:w-[40%] w-[80%] mx-auto mb-8">
+            <SearchBarProduct client:idle />
+        </div>
         <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-5 place-items-center gap-y-12">
             {
                 product.map((item) => (
