@@ -70,9 +70,11 @@
     submitButton.value.disabled = true;
     const { error } = await actions.auth.loginUser(input);
     if(error) {
+      if(error.message === 'Invalid login credentials') {
+        errorMessages.email = error.message;
+        errorMessages.password = error.message;
+      }
       submitButton.value.disabled = false;
-      errorMessages.email = error.message;
-      errorMessages.password = error.message;
     } else {
       isSuccess.value = true;
       setTimeout(() => {

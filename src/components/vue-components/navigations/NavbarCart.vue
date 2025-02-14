@@ -43,14 +43,11 @@
   import { useStore } from '@nanostores/vue'
   import { $cart, $totalCart } from 'src/stores/app-store';
   import { ref, watch } from 'vue';
-  import type {CartType} from 'src/models/productType';
-  const props = defineProps({
-    cartData : {type: Array<CartType>, default: null}
-  })
+  const cartData = ref([]);
 
   const cart = useStore($cart);
   const totalCart = useStore($totalCart);
-  $cart.set(props.cartData);
+  $cart.set(cartData.value);
   const isUpdated = ref(false);
   const cartUpdated = () => {
     isUpdated.value = !isUpdated.value;
