@@ -6,6 +6,7 @@ import ProductDetail from "@/vue-components/products/ProductDetail.vue";
 import { actions } from "astro:actions";
 import MainLayout from "src/layouts/MainLayout.astro";
 import type { ProductType } from "src/models/productType";
+Astro.response.headers.set("Cache-Control", "public, max-age=3600, s-maxage=3600");
 const {id} = Astro.params;
 const {data} = await Astro.callAction(actions.product.getProductDetail, {id_product: id!});
 const product : ProductType = Object.assign(data!)
@@ -13,7 +14,7 @@ const product : ProductType = Object.assign(data!)
 
 <MainLayout>
   <div class="2xl:min-h-[81vh] xl:min-h-[77vh]">
-    <ProductDetail product={product} client:idle>
+    <ProductDetail product={product} client:idle server:defer>
         <SimpleToast text="Produk berhasil ditambahkan!" client:idle>
           {
             product.stock > 0 ?

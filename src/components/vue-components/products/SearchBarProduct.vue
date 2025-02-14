@@ -44,6 +44,6 @@ import { onMounted, ref } from "vue";
   const handleSearch = () => {
     const url = new URL(`${import.meta.env.PUBLIC_URL}/products`);
     url.searchParams.append("search", searchInput.value);
-    window.location.replace(url);
+    window.location.assign(url);
   };
 </script>

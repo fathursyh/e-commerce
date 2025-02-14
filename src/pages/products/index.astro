@@ -5,6 +5,7 @@ import { actions } from "astro:actions";
 import MainLayout from "src/layouts/MainLayout.astro";
 import SearchBarProduct from "@/vue-components/products/SearchBarProduct.vue";
 import PagePaginations from "@/vue-components/navigations/PagePaginations.vue";
+Astro.response.headers.set("Netlify-Vary", "query=page");
 
 const search = Astro.url.searchParams.get('search');
 const page = Astro.url.searchParams.get('page') ?? "1";

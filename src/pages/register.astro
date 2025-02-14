@@ -2,6 +2,7 @@
 import ShowToast from "@/react-components/composables/ShowToast";
 import RegisterForm from "@/vue-components/forms/RegisterForm.vue";
 import MainLayout from "src/layouts/MainLayout.astro";
+Astro.response.headers.set("Cache-Control", "public, max-age=300, s-maxage=3600");
 
 
 ---
