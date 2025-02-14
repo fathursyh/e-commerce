@@ -8,7 +8,7 @@ export const product = {
             const limit = 15;
             const offset = (input.page - 1) * limit;
             const { data, error, count } = await supabase
-            .from('products').select('*', {count: "exact", head: false}).ilike('title', `%${input.query ?? ''}%`).gt('stock', 0).range(offset, offset + 14)
+            .from('products').select('*', {count: "exact", head: false}).ilike('title', `%${(input.query) ?? ''}%`).gt('stock', 0).range(offset, offset + 14)
             if(error) {return []}
             return [data, count];
         } 

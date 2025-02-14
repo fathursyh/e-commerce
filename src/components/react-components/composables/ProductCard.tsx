@@ -5,7 +5,7 @@ type CardProps = {
 };
 export default function ProductCard({ data }: CardProps) {
   return (
-    <div className="card bg-base-100 w-80 shadow-xl">
+    <div className="card bg-base-100 w-80 shadow-xl overflow-hidden">
           <a href={`/products/detail/${data.id_product}`} data-astro-prefetch>
         <figure className="border h-52">
           <img

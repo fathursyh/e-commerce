@@ -13,7 +13,7 @@ const product : ProductType = Object.assign(data!)
 
 <MainLayout>
   <div class="2xl:min-h-[81vh] xl:min-h-[77vh]">
-    <ProductDetail product={product} client:load>
+    <ProductDetail product={product} client:idle>
         <SimpleToast text="Produk berhasil ditambahkan!" client:idle>
           {
             product.stock > 0 ?
