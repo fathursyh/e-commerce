@@ -26,7 +26,10 @@
 </div>
 
 <script>
+
     document.getElementById('logoutButton')?.addEventListener('click', () => {
-        window.location.href = import.meta.env.PUBLIC_URL + '/api/auth/logout'
+        window.location.href = import.meta.env.PUBLIC_URL + '/api/auth/logout';
+        Astro.locals.user_id = undefined;
+        Astro.locals.auth = false;
     });
 </script>

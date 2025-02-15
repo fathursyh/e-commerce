@@ -26,6 +26,7 @@ export const onRequest = defineMiddleware(
 
           if (session.data) {
             context.locals.auth = true;
+            context.locals.user_id = session.data.user?.id;
           }
           if (session.error) {
             context.cookies.delete("sb-access-token", {

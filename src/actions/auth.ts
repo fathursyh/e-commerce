@@ -45,7 +45,6 @@ export const auth = {
         email,
         password,
       });
-
       if (error) {
         throw new ActionError({
           code: 'BAD_REQUEST',
@@ -63,6 +62,7 @@ export const auth = {
           path: import.meta.env.BASE_URL,
           sameSite: 'strict'
         });
+        return data.user;
       }
     }
   })

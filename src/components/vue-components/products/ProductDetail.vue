@@ -27,7 +27,7 @@
             class="w-20 px-3 py-2 border border-gray-300 rounded bg-base-200"
           />
         </div>
-        <span @click="product.stock > 0 && insertProduct({id: product.id_product, quantity: item})">
+        <span @click="addCart">
           <slot />
         </span>
         <p class="text-center mt-2">Stock : {{ product.stock }}</p>
@@ -41,15 +41,26 @@
   import { $cart, insertProduct } from "src/stores/app-store";
   import { ref, watch, type Ref } from "vue";
   import type { ProductType } from "src/models/productType";
-import { localCurency } from "src/stores/utility";
+  import { localCurency } from "src/stores/utility";
 
-  defineProps<{
-    product : ProductType
+  const props = defineProps<{
+    product : ProductType,
+    id: string | undefined
   }>()
 
   const item: Ref<number> = ref(1);
   const isUpdated = ref(false);
   const cart = useStore($cart);
+
+  const addCart = () : void => {
+    if(props.product.stock > 0) {
+      if(props.id !== undefined) {
+        insertProduct({id_user: props.id, id_product: props.product.id_product, quantity: item.value});
+      } else {
+        window.location.href = import.meta.env.PUBLIC_URL + '/login';
+      }
+    } 
+  };
 
   watch(cart, () =>{
     isUpdated.value = true;

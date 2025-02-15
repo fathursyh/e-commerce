@@ -15,7 +15,9 @@ import 'src/assets/css/global.css';
 	</head>
 	<body class="dark:bg-neutral-700">
 		<header>
-			<WebNavbar server:defer />
+			<WebNavbar server:defer>
+				<div class="w-full h-16 bg-base-200" slot="fallback" />
+			</WebNavbar>
 		</header>
 		<slot />
 		<Toaster client:idle />

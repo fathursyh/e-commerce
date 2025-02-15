@@ -1,3 +1,4 @@
+import { actions } from 'astro:actions';
 import { atom, computed } from 'nanostores'
 import type { CartType } from 'src/models/productType';
 
@@ -7,19 +8,6 @@ export const $totalCart = computed($cart, (arr)=>{
 })
 
 export const insertProduct = async(item : CartType) => {
-  const index = $cart.get().findIndex(cart => cart.id == item.id);
-  if(index === -1) {
-    $cart.set([...$cart.get(), item]);
-  } else {
-    const newArray = $cart.get();
-    newArray[index].quantity = item.quantity
-    $cart.set(newArray)
-  }
-  await fetch('http://localhost:4321/api/getCartData.json', {
-    method: 'POST',
-    headers: {
-      'Content-type' : 'application/json'
-    },
-    body: JSON.stringify({cart: item})
-  })
+  const {error} = await actions.cart.insertCart(item);
+  if(error) console.log(error);
 };

@@ -1,5 +1,6 @@
 declare namespace App {
     interface Locals {
-        auth: boolean
+        auth: boolean,
+        user_id?: string,
     }
 }
