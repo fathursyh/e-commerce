@@ -1,11 +1,9 @@
 import type { APIContext, MiddlewareNext } from "astro";
-import { defineMiddleware } from "astro:middleware";
+import { sequence } from "astro:middleware";
 import { supabase } from "src/lib/database";
 
-export const onRequest = defineMiddleware(
-  async (context: APIContext, next: MiddlewareNext) => {
+  async function validation(context: APIContext, next: MiddlewareNext) {
     if (!context.url.pathname.startsWith("/api/")) {
-      
       if (context.url.pathname !== "/login") {
         const accessToken = context.cookies.get("sb-access-token");
         const refreshToken = context.cookies.get("sb-refresh-token");
@@ -52,4 +50,6 @@ export const onRequest = defineMiddleware(
 
     return next();
   }
-);
+
+
+  export const onRequest = sequence(validation);

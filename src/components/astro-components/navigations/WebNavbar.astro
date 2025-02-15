@@ -3,7 +3,22 @@ import ThemeController from "@/react-components/composables/ThemeController";
 import UserMenu from "@components/astro-components/navigations/UserMenu.astro";
 import NavbarCart from "@components/vue-components/navigations/NavbarCart.vue";
 import { SquareArrowOutUpRight } from "lucide-react";
-const { auth } = Astro.locals;
+import { supabase } from 'src/lib/database';
+const { auth, user_id } = Astro.locals;
+supabase
+  .channel("cart")
+  .on(
+    "postgres_changes",
+    {
+      event: "*",
+      schema: "public",
+      table: "carts",
+    },
+      () => {
+		
+	} 
+)
+.subscribe();
 ---
 
 <nav class="navbar bg-base-200 xl:px-36 2xl:px-48" aria-label="navigation">
@@ -12,7 +27,7 @@ const { auth } = Astro.locals;
 	</div>
 	<div class="flex-none">
 		<ThemeController client:idle />
-		<NavbarCart client:idle />
+		<NavbarCart id={user_id!} client:idle />
 		{
 			auth ?
 			<UserMenu />

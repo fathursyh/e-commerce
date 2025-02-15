@@ -28,7 +28,7 @@
       class="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow"
     >
       <div class="card-body">
-        <span class="text-lg font-bold">{{ totalCart }} Items</span>
+        <span class="text-lg font-bold">{{ totalCart }} Items {{ cart }}</span>
         <div class="card-actions">
           <button class="btn btn-primary btn-block">
             View cart
@@ -41,17 +41,29 @@
 
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
-  import { $cart, $totalCart } from 'src/stores/app-store';
-  import { ref, watch } from 'vue';
-  const cartData = ref([]);
+  import { $cart, $totalCart, fetchCart } from 'src/stores/app-store';
+  import { onMounted, ref, watch } from 'vue';
+
+  const props = defineProps<{
+    id?: string
+  }>()
 
   const cart = useStore($cart);
   const totalCart = useStore($totalCart);
-  $cart.set(cartData.value);
   const isUpdated = ref(false);
   const cartUpdated = () => {
     isUpdated.value = !isUpdated.value;
   }
+
+  onMounted(async() => {
+    if(props.id && sessionStorage.getItem('cart') === null){
+      console.log('fetch')
+      const data = await fetchCart();
+      sessionStorage.setItem('cart', JSON.stringify(data));
+    } else {
+      $cart.set(JSON.parse(sessionStorage.getItem('cart')!));
+    }
+  })
   watch(cart, () =>{
     cartUpdated()
     setTimeout(() => {
