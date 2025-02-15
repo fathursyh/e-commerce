@@ -1,29 +1,22 @@
 ---
 export const prerender = false;
-import { Button } from "@/components/ui/button";
-import SimpleToast from "@/react-components/composables/SimpleToast";
+import ShowToast from "@/react-components/composables/ShowToast";
 import ProductDetail from "@/vue-components/products/ProductDetail.vue";
 import { actions } from "astro:actions";
+import { undefined } from "astro:schema";
 import MainLayout from "src/layouts/MainLayout.astro";
 import type { ProductType } from "src/models/productType";
-Astro.response.headers.set("Cache-Control", "public, max-age=3600, s-maxage=3600");
+
 const {id} = Astro.params;
 const {user_id} = Astro.locals;
 const {data} = await Astro.callAction(actions.product.getProductDetail, {id_product: id!});
-const product : ProductType = Object.assign(data!);
+const product : ProductType = (data! !== undefined) && Object.assign(data!);
 ---
 
 <MainLayout>
   <div class="2xl:min-h-[81vh] xl:min-h-[77vh]">
     <ProductDetail product={product} id={user_id} client:idle server:defer>
-        <SimpleToast text="Produk berhasil ditambahkan!" client:idle>
-          {
-            product.stock > 0 ?
-            <Button variant={'primary'} className="w-full">Add to cart</Button>
-            :
-            <Button variant={'default'} className="w-full btn-disabled">Sold Out</Button>
-          }
-        </SimpleToast>
+      <ShowToast text="Item has been added to your cart!" client:load />
     </ProductDetail>
   </div>
 </MainLayout>

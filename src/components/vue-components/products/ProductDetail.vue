@@ -27,9 +27,10 @@
             class="w-20 px-3 py-2 border border-gray-300 rounded bg-base-200"
           />
         </div>
-        <span @click="addCart">
-          <slot />
-        </span>
+        <button class="btn btn-primary w-full" @click="addCart">Add to cart</button>
+          <span v-if="isSuccess">
+            <slot />
+          </span>  
         <p class="text-center mt-2">Stock : {{ product.stock }}</p>
       </div>
     </div>
@@ -48,6 +49,7 @@
     id: string | undefined
   }>()
 
+  const isSuccess = ref(false);
   const item: Ref<number> = ref(1);
   const isUpdated = ref(false);
   const cart = useStore($cart);
@@ -56,6 +58,7 @@
     if(props.product.stock > 0) {
       if(props.id !== undefined) {
         insertProduct({id_user: props.id, id_product: props.product.id_product, quantity: item.value});
+        isSuccess.value = true;
       } else {
         window.location.href = import.meta.env.PUBLIC_URL + '/login';
       }

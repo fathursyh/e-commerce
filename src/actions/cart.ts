@@ -1,8 +1,15 @@
 import { z } from "astro/zod";
-import { defineAction } from "astro:actions";
+import { defineAction, type ActionAPIContext } from "astro:actions";
 import { supabase } from "src/lib/database";
 
 export const cart = {
+  getCartData: defineAction({
+    handler: async (context : ActionAPIContext) => {
+      const { data } = await supabase.from("carts").select().eq('id_user', context.locals.user_id);
+      console.log(data);
+      if(data) return data;
+    },
+  }),
   insertCart: defineAction({
     input: z
       .object({
@@ -24,21 +31,21 @@ export const cart = {
           .eq("id_product", input.id_product);
         if (error) console.log(error);
       } else {
-        const { error } = await supabase
-          .from("carts")
-          .insert({
-            id_user: input.id_user,
-            id_product: input.id_product,
-            quantity: input.quantity,
-          });
+        const { error } = await supabase.from("carts").insert({
+          id_user: input.id_user,
+          id_product: input.id_product,
+          quantity: input.quantity,
+        });
         if (error) console.log(error);
       }
     },
   }),
   removeCart: defineAction({
-    input: z.object({
-      id: z.array(z.string().min(1)),
-    }).required(),
+    input: z
+      .object({
+        id: z.array(z.string().min(1)),
+      })
+      .required(),
     handler: async (input) => {
       const response = await supabase
         .from("countries")

@@ -12,6 +12,8 @@ export const onRequest = defineMiddleware(
 
         if (!accessToken || !refreshToken) {
           context.locals.auth = false;
+          context.locals.user_id = undefined;
+          
           if(context.url.pathname === '/profile') {
             return context.redirect('/login');
           }
