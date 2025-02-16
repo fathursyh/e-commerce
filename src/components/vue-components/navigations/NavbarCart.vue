@@ -57,11 +57,10 @@
 
   onMounted(async() => {
     if(props.id && sessionStorage.getItem('cart') === null){
-      console.log('fetch')
       const data = await fetchCart();
       sessionStorage.setItem('cart', JSON.stringify(data));
     } else {
-      $cart.set(JSON.parse(sessionStorage.getItem('cart')!));
+      $cart.set(JSON.parse(sessionStorage.getItem('cart')!) || []);
     }
   })
   watch(cart, () =>{
