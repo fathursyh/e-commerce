@@ -1,6 +1,6 @@
 import type { APIContext, MiddlewareNext } from "astro";
 import { sequence } from "astro:middleware";
-import { supabase } from "src/lib/database";
+import { db } from "src/lib/database";
 
   async function validation(context: APIContext, next: MiddlewareNext) {
     if (!context.url.pathname.startsWith("/api/")) {
@@ -19,7 +19,7 @@ import { supabase } from "src/lib/database";
         }
 
         try {
-          const session = await supabase.auth.setSession({
+          const session = await db.supabase.auth.setSession({
             refresh_token: refreshToken?.value,
             access_token: accessToken?.value,
           });

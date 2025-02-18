@@ -1,6 +1,6 @@
 import { ActionError, defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
-import { supabase } from 'src/lib/database';
+import { db } from 'src/lib/database';
 
 // eslint-disable-next-line no-useless-escape
 const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-])[A-Z][\w\W]{7,}$/;
@@ -19,7 +19,7 @@ export const auth = {
         return new Response("Email and password are required", { status: 400 });
       }
 
-      const { error } = await supabase.auth.signUp({
+      const { error } = await db.supabase.auth.signUp({
         email,
         password,
       });
@@ -41,7 +41,7 @@ export const auth = {
     }),
     handler: async (input, context) => {
       const { email, password } = input;
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await db.supabase.auth.signInWithPassword({
         email,
         password,
       });

@@ -1,12 +1,12 @@
 import { z } from "astro/zod";
 import { defineAction } from "astro:actions";
-import { supabase } from "src/lib/database";
+import { db } from "src/lib/database";
 
 export const cart = {
   getCartData: defineAction({
     handler: async (input, context) => {
       if(!input) console.log(input);
-      const { data } = await supabase
+      const { data } = await db.supabase
         .from("carts")
         .select()
         .eq("id_user", context.locals.user_id);
@@ -22,19 +22,19 @@ export const cart = {
       })
       .required(),
     handler: async (input) => {
-      const { data } = await supabase
+      const { data } = await db.supabase
         .from("carts")
         .select()
         .match({ id_user: input.id_user, id_product: input.id_product })
         .single();
       if (data) {
-        const { error } = await supabase
+        const { error } = await db.supabase
           .from("carts")
           .update({ quantity: input.quantity })
           .eq("id_product", input.id_product);
         if (error) console.log(error);
       } else {
-        const { error } = await supabase.from("carts").insert({
+        const { error } = await db.supabase.from("carts").insert({
           id_user: input.id_user,
           id_product: input.id_product,
           quantity: input.quantity,
@@ -50,7 +50,7 @@ export const cart = {
       })
       .required(),
     handler: async (input) => {
-      const response = await supabase
+      const response = await db.supabase
         .from("countries")
         .delete()
         .in("id", input.id);
