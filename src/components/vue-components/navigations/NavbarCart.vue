@@ -28,7 +28,7 @@
       class="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow"
     >
       <div class="card-body">
-        <span class="text-lg font-bold">{{ totalCart }} Items {{ cart }}</span>
+        <span class="text-lg font-bold">{{ totalCart }} Items</span>
         <div class="card-actions">
           <button class="btn btn-primary btn-block">
             View cart
@@ -63,6 +63,7 @@
       $cart.set(JSON.parse(sessionStorage.getItem('cart')!) || []);
     }
   })
+
   watch(cart, () =>{
     cartUpdated()
     setTimeout(() => {

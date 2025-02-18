@@ -5,7 +5,6 @@ import { supabase } from "src/lib/database";
 export const cart = {
   getCartData: defineAction({
     handler: async (input, context) => {
-      console.log('fetching')
       if(!input) console.log(input);
       const { data } = await supabase
         .from("carts")

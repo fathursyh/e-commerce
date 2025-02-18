@@ -29,6 +29,7 @@
 
     document.getElementById('logoutButton')?.addEventListener('click', () => {
         window.location.href = import.meta.env.PUBLIC_URL + '/api/auth/logout';
+        sessionStorage.clear();
         Astro.locals.user_id = undefined;
         Astro.locals.auth = false;
     });

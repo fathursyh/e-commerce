@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
   import { useStore } from "@nanostores/vue";
-  import { $cart, insertProduct } from "src/stores/app-store";
+  import { $cart, fetchCart, insertProduct } from "src/stores/app-store";
   import { ref, watch, type Ref } from "vue";
   import type { ProductType } from "src/models/productType";
   import { localCurency } from "src/stores/utility";
@@ -54,10 +54,12 @@
   const isUpdated = ref(false);
   const cart = useStore($cart);
 
-  const addCart = () : void => {
+  const addCart = async() => {
     if(props.product.stock > 0) {
       if(props.id !== undefined) {
         insertProduct({id_user: props.id, id_product: props.product.id_product, quantity: item.value});
+        const data = await fetchCart();
+        sessionStorage.setItem('cart', JSON.stringify(data));
         isSuccess.value = true;
       } else {
         window.location.href = import.meta.env.PUBLIC_URL + '/login';
