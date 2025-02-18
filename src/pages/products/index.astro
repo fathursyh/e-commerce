@@ -14,7 +14,7 @@ Astro.response.headers.set(
 const search = Astro.url.searchParams.get('search');
 const page = Astro.url.searchParams.get('page') ?? "1";
 const {data} = await Astro.callAction(actions.product.getAllProduct, {query: search, page: page});
-const product : ProductType[] = data![0] ? Object.assign(data![0] as ProductType[]) : [];
+const product : ProductType[] = data ? Object.assign(data![0] as ProductType[]) : [];
 ---
 
 <MainLayout>
@@ -38,7 +38,7 @@ const product : ProductType[] = data![0] ? Object.assign(data![0] as ProductType
             </div>
         }
         {
-            data![1] &&
+            data &&
             <PagePaginations client:visible page={parseInt(page)} count={Math.ceil(data![1] as number / 15)} class:list={['mt-14']} />
         }
     </div>

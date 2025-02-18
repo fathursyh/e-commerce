@@ -13,7 +13,7 @@ const { auth, user_id } = Astro.locals;
 	</div>
 	<div class="flex-none">
 		<ThemeController client:idle />
-		<NavbarCart id={user_id!} client:idle />
+		<NavbarCart id={user_id!} client:idle/>
 		{
 			auth ?
 			<UserMenu />

@@ -41,28 +41,67 @@
 
 <script setup lang="ts">
   import { useStore } from '@nanostores/vue'
-  import { $cart, $totalCart, fetchCart } from 'src/stores/app-store';
-  import { onMounted, ref, watch } from 'vue';
+  import { db } from 'src/lib/database';
+  import { $cart, fetchCart } from 'src/stores/app-store';
+  import { onMounted, ref, watch, computed, onUnmounted } from 'vue';
 
   const props = defineProps<{
     id?: string
   }>()
-
   const cart = useStore($cart);
-  const totalCart = useStore($totalCart);
+
+  // const cartData = computed(()=>{
+  //   return cart;
+  // })
+  const totalCart = computed(()=>{
+    return cart.value.length;
+  })
   const isUpdated = ref(false);
+  const channel = ref();
   const cartUpdated = () => {
     isUpdated.value = !isUpdated.value;
   }
 
-  onMounted(async() => {
+  const subscribeChannel = () => {
+    channel.value = db.supabase.channel('schema-db-changes')
+  .on(
+    'postgres_changes',
+    {
+      event: '*',
+      schema: 'public',
+      table: 'carts'
+    },
+    (payload) => console.log(payload)
+  )
+  .subscribe()
+  }
+
+  const fetchCartData = async() =>{
+    const data = await fetchCart();
+    sessionStorage.setItem('cart', JSON.stringify(data));
+  }
+
+  onMounted(() => {
     if(props.id && sessionStorage.getItem('cart') === null){
-      const data = await fetchCart();
-      sessionStorage.setItem('cart', JSON.stringify(data));
+      fetchCartData();
     } else {
       $cart.set(JSON.parse(sessionStorage.getItem('cart')!) || []);
     }
+
+    setTimeout(async() => {
+      const { data } = await db.supabase
+      .from('products')
+      .select()
+      console.log(data);
+      subscribeChannel();
+    }, 400);
   })
+
+  onUnmounted(()=>{
+    db.supabase?.removeChannel(channel.value);
+  })
+
+
 
   watch(cart, () =>{
     cartUpdated()

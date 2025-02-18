@@ -27,7 +27,8 @@
             class="w-20 px-3 py-2 border border-gray-300 rounded bg-base-200"
           />
         </div>
-        <button class="btn btn-primary w-full" @click="addCart">Add to cart</button>
+        <button v-if="product.stock > 0" class="btn btn-primary w-full" @click="addCart">Add to cart</button>
+        <button v-else class="btn btn-disabled w-full">Out of stock</button>
           <span v-if="isSuccess">
             <slot />
           </span>  
@@ -39,7 +40,7 @@
 
 <script setup lang="ts">
   import { useStore } from "@nanostores/vue";
-  import { $cart, fetchCart, insertProduct } from "src/stores/app-store";
+  import { $cart, insertProduct } from "src/stores/app-store";
   import { ref, watch, type Ref } from "vue";
   import type { ProductType } from "src/models/productType";
   import { localCurency } from "src/stores/utility";
@@ -58,8 +59,7 @@
     if(props.product.stock > 0) {
       if(props.id !== undefined) {
         insertProduct({id_user: props.id, id_product: props.product.id_product, quantity: item.value});
-        const data = await fetchCart();
-        sessionStorage.setItem('cart', JSON.stringify(data));
+        sessionStorage.clear();
         isSuccess.value = true;
       } else {
         window.location.href = import.meta.env.PUBLIC_URL + '/login';
