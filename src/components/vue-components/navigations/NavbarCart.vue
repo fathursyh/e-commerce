@@ -63,17 +63,22 @@
   }
 
   const subscribeChannel = () => {
-    channel.value = db.supabase.channel('schema-db-changes')
-  .on(
-    'postgres_changes',
-    {
-      event: '*',
-      schema: 'public',
-      table: 'carts'
-    },
-    (payload) => console.log(payload)
-  )
-  .subscribe()
+    if(db.supabase){
+      channel.value = db.supabase.channel('schema-db-changes')
+    .on(
+      'postgres_changes',
+      {
+        event: '*',
+        schema: 'public',
+        table: 'carts'
+      },
+      () => {
+        sessionStorage.removeItem('cart');
+        fetchCartData();
+      } 
+    )
+    .subscribe()
+    }
   }
 
   const fetchCartData = async() =>{
@@ -89,16 +94,12 @@
     }
 
     setTimeout(async() => {
-      const { data } = await db.supabase
-      .from('products')
-      .select()
-      console.log(data);
       subscribeChannel();
-    }, 400);
+    }, 500);
   })
 
   onUnmounted(()=>{
-    db.supabase?.removeChannel(channel.value);
+    if(db.supabase) db.supabase?.removeChannel(channel.value);
   })
 
 
