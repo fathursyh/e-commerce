@@ -6,7 +6,7 @@
         <img
           :src=product.image
           alt="Product Image"
-          class="w-full h-96 object-cover"
+          class="w-full md:h-96 h-64 object-cover"
           :class="{'grayscale': product.stock === 0}"
         />
       </div>

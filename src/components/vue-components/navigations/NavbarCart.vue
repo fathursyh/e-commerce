@@ -30,7 +30,7 @@
       <div class="card-body">
         <span class="text-lg font-bold">{{ totalCart }} Items</span>
         <div class="card-actions">
-          <a href="/cart" class="btn btn-primary btn-block">
+          <a href="/cart" class="btn btn-secondary btn-block">
             View cart
           </a>
         </div>

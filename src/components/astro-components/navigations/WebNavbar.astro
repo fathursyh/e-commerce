@@ -12,6 +12,7 @@ const { auth, user_id } = Astro.locals;
 		<a class="btn btn-ghost text-xl font-bold" href="/" >F-Shop</a>
 	</div>
 	<div class="flex-none">
+		<a href="/products" class="px-4 py-2 rounded btn-ghost">Products</a>
 		<ThemeController client:idle />
 		<NavbarCart id={user_id!} client:idle/>
 		{
