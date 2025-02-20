@@ -3,13 +3,22 @@ import { defineAction } from "astro:actions";
 import { db } from "src/lib/database";
 
 export const cart = {
+  getCartList: defineAction({
+    input: z.object({
+      id_product: z.array(z.string()),
+    }),
+    handler: async (input) => {
+      const { data } = await db.supabase.from("products").select().in('id_product', input.id_product);
+      if(data) return data;
+    },
+  }),
   getCartData: defineAction({
     handler: async (input, context) => {
-      if(!input) console.log(input);
+      if (!input) console.log(input);
       const { data } = await db.supabase
         .from("carts")
         .select()
-        .eq("id_user", context.locals.user_id);
+        .eq("id_user", context.locals.user_id).order('created_at');
       if (data) return data;
     },
   }),
@@ -46,16 +55,15 @@ export const cart = {
   removeCart: defineAction({
     input: z
       .object({
-        id: z.array(z.string().min(1)),
+        id: z.string(),
       })
       .required(),
     handler: async (input) => {
       const response = await db.supabase
-        .from("countries")
+        .from("carts")
         .delete()
-        .in("id", input.id);
+        .eq('id', input.id);
       return response;
     },
   }),
 };
-

@@ -3,7 +3,7 @@ import ProductCard from "../composables/ProductCard";
 import { useEffect, useState } from "react";
 import type { ProductType } from "src/models/productType";
 
-export default function featuredProduct() {
+export function FeaturedProduct() {
   const [products, setProducts] = useState<ProductType[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -35,7 +35,7 @@ export default function featuredProduct() {
     );
   }
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8 place-items-stretch">
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-8 place-items-stretch">
       {
         products.map((item) => (
           <ProductCard

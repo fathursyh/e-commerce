@@ -1,7 +1,7 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 import HomeLanding from "@/astro-components/home-astro/HomeLanding.astro";
-import FeaturedProduct from '@components/react-components/home-react/FeaturedProducts';
+import {FeaturedProduct} from '@components/react-components/home-react/FeaturedProducts';
 Astro.response.headers.set("Cache-Control", "public, max-age=360, must-revalidate");
 Astro.response.headers.set(
   "Netlify-CDN-Cache-Control", "public, durable, s-maxage=360, stale-while-revalidate=60480"

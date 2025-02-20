@@ -30,9 +30,9 @@
       <div class="card-body">
         <span class="text-lg font-bold">{{ totalCart }} Items</span>
         <div class="card-actions">
-          <button class="btn btn-primary btn-block">
+          <a href="/cart" class="btn btn-primary btn-block">
             View cart
-          </button>
+          </a>
         </div>
       </div>
     </div>

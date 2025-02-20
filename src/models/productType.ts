@@ -8,7 +8,9 @@ export interface ProductType {
 }
 
 export type CartType = {
+  "id": string
   "id_user": string,
   "id_product": string,
   "quantity": number
+  "created_at": Date
 }

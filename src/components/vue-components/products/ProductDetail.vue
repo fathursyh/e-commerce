@@ -28,7 +28,7 @@
           />
         </div>
         <button v-if="product.stock > 0" class="btn btn-primary w-full" @click="addCart">Add to cart</button>
-        <button v-else class="btn btn-disabled w-full">Out of stock</button>
+        <button v-if="product.stock === 0" class="btn btn-disabled w-full">Out of stock</button>
           <span v-if="isSuccess">
             <slot />
           </span>  
@@ -58,7 +58,7 @@
   const addCart = async() => {
     if(props.product.stock > 0) {
       if(props.id !== undefined) {
-        insertProduct({id_user: props.id, id_product: props.product.id_product, quantity: item.value});
+        insertProduct({id_user: props.id, id_product: props.product.id_product, quantity: item.value, id: '', created_at: new Date});
         sessionStorage.clear();
         isSuccess.value = true;
       } else {

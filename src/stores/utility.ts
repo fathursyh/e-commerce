@@ -4,7 +4,7 @@ export function localCurency(value : number) : string {
     currency: 'IDR',
     trailingZeroDisplay: 'stripIfInteger'
   });
-  return rupiah.format(value);
+  return rupiah.format(value || 0);
 }
 
 export function debounce(func : () => void , wait = 700) {
