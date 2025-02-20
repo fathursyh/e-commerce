@@ -12,7 +12,7 @@ import { db } from "src/lib/database";
           context.locals.auth = false;
           context.locals.user_id = undefined;
           
-          if(context.url.pathname === '/profile') {
+          if(context.url.pathname === '/profile' || context.url.pathname === '/cart') {
             return context.redirect('/login');
           }
           return next();

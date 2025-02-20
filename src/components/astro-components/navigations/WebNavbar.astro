@@ -14,9 +14,9 @@ const { auth, user_id } = Astro.locals;
 	<div class="flex-none">
 		<a href="/products" class="px-4 py-2 rounded btn-ghost">Products</a>
 		<ThemeController client:idle />
-		<NavbarCart id={user_id!} client:idle/>
 		{
 			auth ?
+			<NavbarCart id={user_id!} client:idle/>
 			<UserMenu />
 			:
 			<a href="/login" class="ms-4 inline-block hover:underline rounded-full">Login <SquareArrowOutUpRight className="w-4 h-4 inline" /> </a>

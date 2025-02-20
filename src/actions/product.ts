@@ -54,4 +54,10 @@ export const product = {
       if(data) return data;
     },
   }),
+  checkOutProducts: defineAction({
+    handler: (input, context) => {
+      context.cookies.set('checkout', JSON.stringify(input), {path: '/checkout', secure: true, sameSite: "strict", maxAge: 300});
+      return true;
+    }
+  }),
 };

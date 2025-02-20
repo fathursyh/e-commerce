@@ -55,6 +55,7 @@
 <script setup lang="ts">
     import { useStore } from '@nanostores/vue';
     import { actions } from 'astro:actions';
+import { navigate } from 'astro:transitions/client';
     import type { ProductType } from 'src/models/productType';
     import { $cart } from 'src/stores/app-store';
     import { localCurency } from 'src/stores/utility';
@@ -95,9 +96,18 @@
         const outStock : string[] = [];
         const {data} = await actions.product.checkProductsStock([cart.value[0]?.id_product, cart.value[1]?.id_product]);
         cart.value.forEach((item, index) => {
-            if (data![index].stock > item.quantity) {
-                outStock.push(item.id_product)
-            }   
+            if (data![index].stock <= item.quantity) {
+                outStock.push(item.id_product);
+                cartList.value = cartList.value.filter((item : ProductType)=>!outStock.includes(item.id_product));
+                actions.cart.removeCart({id: item.id});
+            }
         });
+        if(outStock.length > 0) {
+            alert('Out of stock item in the cart removed.');
+            return;
+        } else {
+            const res = await actions.product.checkOutProducts(cartList.value);
+            if(res) navigate('/checkout', {history: 'replace'});
+        }
     };
 </script>
