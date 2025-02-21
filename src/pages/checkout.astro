@@ -1,14 +1,24 @@
----
-import MainLayout from "src/layouts/MainLayout.astro";
+<!-- ---
+    import { actions } from "astro:actions";
+    import MainLayout from "src/layouts/MainLayout.astro";
+    import { db } from "src/lib/database";
 
-if(Astro.cookies.has('checkout')){
-    const data = JSON.parse(Astro.cookies.get('checkout')!.value)
-    console.log(data);
-} else {
-    return Astro.redirect('/');
-}
+    const items = Astro.cookies.has('checkout') && JSON.parse(Astro.cookies.get('checkout')!.value);
+    const total = Astro.cookies.has('checkout') && JSON.parse(Astro.cookies.get('total')!.value);
+    if(!Astro.cookies.has('checkout')) return Astro.redirect('/', 302);
+    const { data: { user } } = await db.supabase.auth.getUser();
+
+    const {data} = await Astro.callAction(actions.payment.getToken, {
+        email: user?.email!,
+        total: total,
+        item: items,
+    })
 ---
 
 <MainLayout>
-
-</MainLayout>
+<script>
+    document.onload = () => {
+        window.snap.pay();
+    }
+</script>
+</MainLayout> -->

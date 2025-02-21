@@ -1,50 +1,71 @@
 ---
-import WebFooter from '@/astro-components/composables/WebFooter.astro';
-import WebNavbar from '@/astro-components/navigations/WebNavbar.astro';
-import { Toaster } from '@/components/ui/toaster';
-import 'src/assets/css/global.css';
-
+import WebFooter from "@/astro-components/composables/WebFooter.astro";
+import WebNavbar from "@/astro-components/navigations/WebNavbar.astro";
+import { Toaster } from "@/components/ui/toaster";
+import "src/assets/css/global.css";
 ---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>F-Shop</title>
-	</head>
-	<body class="dark:bg-neutral-700">
-		<header>
-			<WebNavbar server:defer>
-				<div class="w-full h-16 bg-base-200" slot="fallback" />
-			</WebNavbar>
-		</header>
-		<slot />
-		<Toaster client:idle />
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width"
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/favicon.svg"
+    />
+    <meta
+      name="generator"
+      content={Astro.generator}
+    />
+    <title>F-Shop</title>
+    <script
+      is:inline
+      type="text/javascript"
+      src="https://app.sandbox.midtrans.com/snap/snap.js"
+      data-client-key=`${import.meta.env.PUBLIC_MIDTRANS_CLIENT}`
+      async
+    ></script>
+  </head>
+  <body class="dark:bg-neutral-700">
+    <header>
+      <WebNavbar server:defer>
+        <div
+          class="w-full h-16 bg-base-200"
+          slot="fallback"
+        >
+        </div>
+      </WebNavbar>
+    </header>
+    <slot />
+    <Toaster client:idle />
 
-		<WebFooter />
-	</body>
+    <WebFooter />
+  </body>
 </html>
 
 <style>
-	html,
-	body {
-		padding: 0;
-		margin: 0;
-		width: 100%;
-		height: 100%;
-		scrollbar-gutter: auto !important;
-	}
+  html,
+  body {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    scrollbar-gutter: auto !important;
+  }
 </style>
 
 <script>
-	function getTheme() {
-		document.documentElement.dataset.theme = localStorage.getItem('theme') || 'winter';
-	}
+  function getTheme() {
+    document.documentElement.dataset.theme =
+      localStorage.getItem("theme") || "winter";
+  }
 
-	window.onload = function() {
-		getTheme();
-	}
-
+  window.onload = function () {
+    getTheme();
+  };
 </script>

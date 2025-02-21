@@ -40,7 +40,7 @@
         <div class="flex flex-row-reverse justify-between w-screen px-4 md:px-0 md:w-1/2 2xl:w-1/3">
             <div class="mt-6 flex flex-col md:flex-row md:gap-10 gap-2 items-center">
                 <span class="font-bold">Total:</span>
-                <span class="text-xl">{{ total }}</span>
+                <span class="text-xl">{{ localCurency(total) }}</span>
             </div>
 
             <div class="mt-6">
@@ -52,14 +52,17 @@
 
 </template>
 
+
 <script setup lang="ts">
     import { useStore } from '@nanostores/vue';
     import { actions } from 'astro:actions';
-import { navigate } from 'astro:transitions/client';
     import type { ProductType } from 'src/models/productType';
     import { $cart } from 'src/stores/app-store';
     import { localCurency } from 'src/stores/utility';
     import { onMounted, ref, computed } from 'vue';
+    const props = defineProps<{
+        email: string
+    }>()
 
     const isLoaded = ref(false);
     const cart = useStore($cart);
@@ -72,7 +75,7 @@ import { navigate } from 'astro:transitions/client';
                 sum += item?.price * value.quantity;
             });
         }
-        return localCurency(sum);
+        return sum
     });
     onMounted(async () => {
         setTimeout(async () => {
@@ -106,8 +109,21 @@ import { navigate } from 'astro:transitions/client';
             alert('Out of stock item in the cart removed.');
             return;
         } else {
-            const res = await actions.product.checkOutProducts(cartList.value);
-            if(res) navigate('/checkout', {history: 'replace'});
+            const res = await actions.product.checkOutProducts({items: cartList.value, total: total.value});
+            if(res) {
+                const {data} = await actions.payment.getToken({
+                    email: props.email,
+                    total: total.value,
+                    items: cartList.value
+                })
+                window.snap.pay(data, {
+                    onSuccess: async function(){
+                        await actions.cart.removeBulkCart(cart.value.map((item)=>item.id))
+                        cartList.value = [];
+                        alert("payment success!");
+                    },
+                });
+            }
         }
     };
 </script>

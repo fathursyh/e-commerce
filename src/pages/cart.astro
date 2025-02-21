@@ -1,9 +1,9 @@
 ---
 import CartList from "@/vue-components/cart/CartList.vue";
 import MainLayout from "src/layouts/MainLayout.astro";
-
+const {email} =  Astro.locals;
 ---
 
 <MainLayout>
-        <CartList client:load />
+        <CartList client:load email={email!} />
 </MainLayout>

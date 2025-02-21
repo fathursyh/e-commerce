@@ -27,6 +27,7 @@ import { db } from "src/lib/database";
           if (session.data) {
             context.locals.auth = true;
             context.locals.user_id = session.data.user?.id;
+            context.locals.email = session.data.user?.email;
           }
           if (session.error) {
             context.cookies.delete("sb-access-token", {

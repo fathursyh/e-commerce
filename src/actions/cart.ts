@@ -66,4 +66,13 @@ export const cart = {
       return response;
     },
   }),
+  removeBulkCart: defineAction({
+    handler: async(input) => {
+      const response = await db.supabase
+        .from("carts")
+        .delete()
+        .in('id', input);
+      return response;
+    }
+  }),
 };

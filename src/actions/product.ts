@@ -55,8 +55,13 @@ export const product = {
     },
   }),
   checkOutProducts: defineAction({
+    input: z.object({
+      items: z.array(z.any()),
+      total: z.number()
+    }),
     handler: (input, context) => {
-      context.cookies.set('checkout', JSON.stringify(input), {path: '/checkout', secure: true, sameSite: "strict", maxAge: 300});
+      context.cookies.set('checkout', JSON.stringify(input.items), {path: '/checkout', secure: true, sameSite: "strict", maxAge: 300});
+      context.cookies.set('total', JSON.stringify(input.total), {path: '/checkout', secure: true, sameSite: "strict", maxAge: 300});
       return true;
     }
   }),
