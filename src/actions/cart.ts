@@ -5,11 +5,15 @@ import { db } from "src/lib/database";
 export const cart = {
   getCartList: defineAction({
     input: z.object({
+      user: z.string(),
       id_product: z.array(z.string()),
     }),
     handler: async (input) => {
-      const { data } = await db.supabase.from("products").select().in('id_product', input.id_product);
-      if(data) return data;
+      const { data, error } = await db.supabase
+  .from('carts')
+  .select('id, id_product, quantity, products(title, price, image)').in('id_product', input.id_product).eq('id_user', input.user);
+  if(data) return data;
+  if(error) return error;
     },
   }),
   getCartData: defineAction({

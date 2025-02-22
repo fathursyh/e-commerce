@@ -10,20 +10,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item) in (cartList as ProductType[])" :key="item.id_product">
+                <tr v-for="(item) in (cartList as CartList[])" :key="item.id_product">
                     <td class="py-4 px-4 flex flex-col justify-center items-center gap-1">
                         <a :href="`/products/detail/${item.id_product}`">
-                            <img :src=item.image alt="Product Image" class="rounded h-40 w-40 object-cover">
+                            <img :src=item.products.image alt="Product Image" class="rounded h-40 w-40 object-cover">
                         </a>
-                        <span class="text-sm">{{ item.title }}</span>
+                        <span class="text-sm">{{ item.products.title }}</span>
                     </td>
                     <td class="py-4 px-4">
-                        <input type="text" :value="cart[cart.findIndex(value => value.id_product === item.id_product)]?.quantity" class="border rounded w-12 text-center" disabled>
+                        <input type="text" :value="item.quantity" class="border rounded w-12 text-center" disabled>
                     </td>
-                    <td class="py-4 px-4">{{localCurency(cart[cart.findIndex(value => value.id_product ===
-                        item.id_product)]?.quantity * item.price) }}</td>
+                    <td class="py-4 px-4">{{ localCurency(item.products.price * item.quantity) }}</td>
                     <td class="py-4 px-4">
-                        <button class="text-error hover:text-red-600 btn-ghost rounded mx-auto" @click="deleteItem(cart[cart.findIndex(value => value.id_product === item.id_product)]?.id, item.id_product)"><svg
+                        <button class="text-error hover:text-red-600 btn-ghost rounded mx-auto" @click="deleteItem(item.id)"><svg
                                 class="w-6 h-6 text-error dark:text-white" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                                 viewBox="0 0 24 24">
@@ -47,6 +46,8 @@
                 <button class="btn btn-primary text-white py-2 px-4 rounded" :class="{ 'btn-disabled': cartList?.length === 0 }" :disabled="cartList?.length === 0" @click="checkout">Proceed to
                     Checkout</button>
             </div>
+                <!-- <slot v-if="isRemoved" name="remove" />
+                <slot v-if="isRemoved" name="stock" /> -->
         </div>
     </section>
 
@@ -56,40 +57,44 @@
 <script setup lang="ts">
     import { useStore } from '@nanostores/vue';
     import { actions } from 'astro:actions';
-    import type { ProductType } from 'src/models/productType';
+    import type { CartList } from 'src/models/productType';
     import { $cart } from 'src/stores/app-store';
     import { localCurency } from 'src/stores/utility';
     import { onMounted, ref, computed } from 'vue';
     const props = defineProps<{
-        email: string
+        email: string,
+        id: string,
     }>()
 
     const isLoaded = ref(false);
+    const isRemoved = ref(false);
     const cart = useStore($cart);
     const cartList = ref();
     const total = computed(() => {
         let sum = 0;
-        if (cart.value && cartList.value) {
-            cart.value?.forEach(value => {
-                const item: ProductType = cartList.value.find((item: ProductType) => item.id_product === value.id_product);
-                sum += item?.price * value.quantity;
-            });
+        if(cartList.value) {
+            cartList.value.forEach((item : CartList) => 
+                sum += item.products.price
+            );
         }
-        return sum
+        return sum;
     });
-    onMounted(async () => {
+    onMounted(() => {
         setTimeout(async () => {
-            cartList.value = (await actions.cart.getCartList({ id_product: cart.value.map(item => item.id_product) })).data;
+            cartList.value = (await actions.cart.getCartList({ id_product: cart.value.map(item => item.id_product), user: props.id! })).data;
             isLoaded.value = true;
-        }, 400);
+        }, 500);
 
     });
 
-    const deleteItem = async (id: string, product: string) => {
+    const deleteItem = async (id : string) => {
         if (confirm('Remove this item?')) {
             await actions.cart.removeCart({ id: id })
-            const i = cartList.value.findIndex((value: ProductType) => value.id_product === product);
-            cartList.value.splice(i, 1);
+            cartList.value = cartList.value.filter((item : CartList) => item.id !== id)
+            isRemoved.value = true;
+            setTimeout(() => {
+                isRemoved.value = false;
+            }, 800);
         } else {
             return null;
         }
@@ -98,13 +103,15 @@
     const checkout = async() => {
         const outStock : string[] = [];
         const {data} = await actions.product.checkProductsStock([cart.value[0]?.id_product, cart.value[1]?.id_product]);
-        cart.value.forEach((item, index) => {
-            if (data![index].stock <= item.quantity) {
-                outStock.push(item.id_product);
-                cartList.value = cartList.value.filter((item : ProductType)=>!outStock.includes(item.id_product));
-                actions.cart.removeCart({id: item.id});
+        cartList.value.forEach((item : CartList)=>{
+            if(data){
+                if(item.quantity > data![data?.findIndex((product) => product.id_product === item.id_product)].stock) {
+                    console.log('');
+                    // todo: terusin.
+                }
             }
         });
+       
         if(outStock.length > 0) {
             alert('Out of stock item in the cart removed.');
             return;
@@ -114,8 +121,8 @@
                 const {data} = await actions.payment.getToken({
                     email: props.email,
                     total: total.value,
-                    items: cartList.value
                 })
+                console.log(data);
                 window.snap.pay(data, {
                     onSuccess: async function(){
                         await actions.cart.removeBulkCart(cart.value.map((item)=>item.id))

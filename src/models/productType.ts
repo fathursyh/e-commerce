@@ -14,3 +14,14 @@ export type CartType = {
   "quantity": number
   "created_at": Date
 }
+
+export interface CartList {
+  id: string,
+  quantity: number,
+  id_product: string,
+  products: {
+    price: number,
+    title: string,
+    image: string,
+  }
+}

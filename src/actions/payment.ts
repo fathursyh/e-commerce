@@ -6,7 +6,7 @@ export const payment = {
   getToken: defineAction({
     input: z.object({
         total: z.number().min(10000),
-        items: z.array(z.any()),
+        // items: z.array(z.any()),
         email: z.string().email(),
     }),
     handler: async (input) => {
