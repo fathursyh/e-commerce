@@ -1,0 +1,13 @@
+---
+import ShowToast from "@/react-components/composables/ShowToast";
+import CartList from "@/vue-components/cart/CartList.vue";
+import MainLayout from "src/layouts/MainLayout.astro";
+const { email, user_id } = Astro.locals;
+---
+
+<MainLayout>
+  <CartList client:load email={email!} id={user_id!} v-slot="props">
+      <ShowToast slot={'remove'} text="Item has been removed." client:load />
+      <ShowToast slot={'stock'} text="One or more items is out of stock." client:load />
+  </CartList>
+</MainLayout>

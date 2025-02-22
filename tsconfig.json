@@ -8,7 +8,8 @@
     "dist"
   ],
   "compilerOptions": {
-    "jsx": "preserve",
+    "jsx": "react-jsx",
+    "strictFunctionTypes": true,
     "alwaysStrict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -19,8 +20,19 @@
     "checkJs": true,
     "baseUrl": ".",
     "paths": {
-      "@components/*": ["src/components/*"],
-    }
-
+      "@/*": [
+        "src/components/*"
+      ],
+      "@components/astro-components/*": [
+        "src/components/astro-components/*"
+      ],
+      "@components/vue-components/*": [
+        "src/components/vue-components/*"
+      ],
+      "@components/react-components/*": [
+        "src/components/react-components/*"
+      ],
+    },
+    "jsxImportSource": "react"
   }
 }

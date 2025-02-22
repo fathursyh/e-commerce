@@ -1,0 +1,45 @@
+---
+import type { ProductType } from "src/models/productType";
+import ProductCard from "@/react-components/composables/ProductCard";
+import { actions } from "astro:actions";
+import MainLayout from "src/layouts/MainLayout.astro";
+import SearchBarProduct from "@/vue-components/products/SearchBarProduct.vue";
+import PagePaginations from "@/vue-components/navigations/PagePaginations.vue";
+Astro.response.headers.set("Netlify-Vary", "query=page");
+Astro.response.headers.set("Cache-Control", "public, max-age=360, must-revalidate");
+Astro.response.headers.set(
+  "Netlify-CDN-Cache-Control", "public, durable, s-maxage=360, stale-while-revalidate=60480"
+);
+
+const search = Astro.url.searchParams.get('search');
+const page = Astro.url.searchParams.get('page') ?? "1";
+const {data} = await Astro.callAction(actions.product.getAllProduct, {query: search, page: page});
+const product : ProductType[] = data ? Object.assign(data![0] as ProductType[]) : [];
+---
+
+<MainLayout>
+    <div class="min-h-[82vh] py-10 xl:px-10 2xl:px-20">
+        <div class="xl:w-[40%] w-[80%] mx-auto mb-20">
+            <SearchBarProduct client:idle initial={search} suggestion={product.map(object=>object.title)} />
+        </div>
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-5 place-items-center gap-y-12">
+            {
+                product.length > 0 &&
+                product.map((item) => (
+                    <ProductCard data={item} server:defer/>
+                ))
+            }
+            
+        </section>
+        {
+            product.length < 1 &&
+            <div class="grid place-items-center h-[50vh]">
+                <p class="text-center text-base-content/70">Tidak ada produk</p>   
+            </div>
+        }
+        {
+            data &&
+            <PagePaginations client:visible page={parseInt(page)} count={Math.ceil(data![1] as number / 15)} class:list={['mt-14']} />
+        }
+    </div>
+</MainLayout>

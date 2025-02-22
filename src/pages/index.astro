@@ -1,9 +1,41 @@
 ---
-import WelcomeHome from '@components/WelcomeHome.vue';
-import MainLayout from '../layouts/MainLayout.astro';
-
+import MainLayout from "../layouts/MainLayout.astro";
+import HomeLanding from "@/astro-components/home-astro/HomeLanding.astro";
+import {FeaturedProduct} from '@components/react-components/home-react/FeaturedProducts';
+Astro.response.headers.set("Cache-Control", "public, max-age=360, must-revalidate");
+Astro.response.headers.set(
+  "Netlify-CDN-Cache-Control", "public, durable, s-maxage=360, stale-while-revalidate=60480"
+);
 ---
 
+<meta
+  property="og:title"
+  content="Premium stuff shop"
+/>
+<meta
+  property="og:type"
+  content="website"
+/>
+<meta
+  property="og:description"
+  content="Welcome to F-shop, where we have everything that you need."
+/>
+<meta
+  property="og:image"
+  content="https://www.example.com/_astro/seo-banner.BZD7kegZ.webp"
+/>
+
+<meta
+  property="og:image:alt"
+  content="F-shop Image"
+/>
+<title>F-Shop - Home</title>
+
 <MainLayout>
-	 <WelcomeHome client:load fromAstro="ganteng" />
+  <HomeLanding />
+  <!-- Product Grid -->
+  <section class="container w-fit mx-auto px-6 py-12 2xl:min-h-[48vh] xl:min-h-[36vh]">
+    <h2 class="text-3xl font-bold text-center mb-8">Featured Products</h2>
+    <FeaturedProduct client:load />
+  </section>
 </MainLayout>
