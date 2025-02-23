@@ -50,10 +50,12 @@ export const product = {
   checkProductsStock: defineAction({
     input: z.array(z.string()),
     handler: async (input) => {
+      console.log(input);
       const { data } = await db.supabase
         .from("products")
-        .select("id_product, stock")
+        .select("id_product, stock, title")
         .in("id_product", input);
+        console.log(data);
       if (data) return data;
     },
   }),
