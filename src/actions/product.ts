@@ -50,19 +50,40 @@ export const product = {
   checkProductsStock: defineAction({
     input: z.array(z.string()),
     handler: async (input) => {
-      const { data } = await db.supabase.from("products").select('id_product, stock').in('id_product', input);
-      if(data) return data;
+      const { data } = await db.supabase
+        .from("products")
+        .select("id_product, stock")
+        .in("id_product", input);
+      if (data) return data;
     },
   }),
   checkOutProducts: defineAction({
     input: z.object({
       items: z.array(z.any()),
-      total: z.number()
+      total: z.number(),
     }),
     handler: (input, context) => {
-      context.cookies.set('checkout', JSON.stringify(input.items), {path: '/checkout', secure: true, sameSite: "strict", maxAge: 300});
-      context.cookies.set('total', JSON.stringify(input.total), {path: '/checkout', secure: true, sameSite: "strict", maxAge: 300});
+      context.cookies.set("checkout", JSON.stringify(input.items), {
+        path: "/checkout",
+        secure: true,
+        sameSite: "strict",
+        maxAge: 300,
+      });
+      context.cookies.set("total", JSON.stringify(input.total), {
+        path: "/checkout",
+        secure: true,
+        sameSite: "strict",
+        maxAge: 300,
+      });
       return true;
-    }
+    },
+  }),
+  soldProducts: defineAction({
+    handler: async () => {
+      // todo: optimitistic locking
+      // const {data} = db.supabase
+      const lastUpdate = await db.supabase.from("characters").select('updated_at').single();
+      console.log(lastUpdate);
+    },
   }),
 };

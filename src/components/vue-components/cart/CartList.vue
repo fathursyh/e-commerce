@@ -122,7 +122,6 @@
                     email: props.email,
                     total: total.value,
                 })
-                console.log(data);
                 window.snap.pay(data, {
                     onSuccess: async function(){
                         await actions.cart.removeBulkCart(cart.value.map((item)=>item.id))
