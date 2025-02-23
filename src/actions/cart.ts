@@ -18,7 +18,7 @@ export const cart = {
   }),
   getCartData: defineAction({
     handler: async (input, context) => {
-      if (!input) console.log(input);
+      input = {}
       const { data } = await db.supabase
         .from("carts")
         .select()

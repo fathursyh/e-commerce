@@ -1,4 +1,4 @@
-import { defineAction } from "astro:actions";
+import { ActionError, defineAction } from "astro:actions";
 import { z } from "astro:content";
 import { db } from "src/lib/database";
 
@@ -50,12 +50,10 @@ export const product = {
   checkProductsStock: defineAction({
     input: z.array(z.string()),
     handler: async (input) => {
-      console.log(input);
       const { data } = await db.supabase
         .from("products")
         .select("id_product, stock, title")
         .in("id_product", input);
-      console.log(data);
       if (data) return data;
     },
   }),
@@ -81,18 +79,25 @@ export const product = {
     },
   }),
   soldProducts: defineAction({
+    input: z.object({
+      updateItems: z.array(z.object({
+        id_product: z.string(),
+        stock: z.number(),
+      }))
+    }),
     handler: async (input) => {
-      console.log(input);
+      // console.log(input);
       // todo: optimitistic locking
-      const lastUpdate = await db.supabase
-        .from("characters")
-        .select("updated_at")
-        .single();
-      console.log(lastUpdate);
-      // const { error } = await db.supabase
-      //   .from("products")
-      //   .update({ stock: input.stock })
-      //   .in("id_product", input.id);
+      const lastUpdated = await db.supabase
+        .from("products")
+        .select("id_product, updated_at").in('id_product', input.updateItems.map(item=>item.id_product)).then(data => data.data);
+      // console.log(lastUpdated);
+
+      const { error } = await db.supabase
+        .from("products")
+        .upsert(input.updateItems)
+        .in('created_at', lastUpdated!)
+        if(error) return new ActionError({message: error.message, code: "CONFLICT", stack: error.stack});
     },
   }),
 };
