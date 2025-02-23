@@ -48,7 +48,6 @@ import { db } from "src/lib/database";
         }
       }
     }
-
     return next();
   }
 

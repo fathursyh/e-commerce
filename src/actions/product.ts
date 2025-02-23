@@ -55,7 +55,7 @@ export const product = {
         .from("products")
         .select("id_product, stock, title")
         .in("id_product", input);
-        console.log(data);
+      console.log(data);
       if (data) return data;
     },
   }),
@@ -81,11 +81,18 @@ export const product = {
     },
   }),
   soldProducts: defineAction({
-    handler: async () => {
+    handler: async (input) => {
+      console.log(input);
       // todo: optimitistic locking
-      // const {data} = db.supabase
-      const lastUpdate = await db.supabase.from("characters").select('updated_at').single();
+      const lastUpdate = await db.supabase
+        .from("characters")
+        .select("updated_at")
+        .single();
       console.log(lastUpdate);
+      // const { error } = await db.supabase
+      //   .from("products")
+      //   .update({ stock: input.stock })
+      //   .in("id_product", input.id);
     },
   }),
 };
