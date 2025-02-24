@@ -27,6 +27,7 @@ async function validation(context: APIContext, next: MiddlewareNext) {
         context.locals.auth = true;
         context.locals.user_id = session.data.user?.id;
         context.locals.email = session.data.user?.email;
+        if(context.url.pathname === '/login' || context.url.pathname === '/register') return context.redirect('/');
       }
       if (session.error) {
         context.cookies.delete("sb-access-token", {
