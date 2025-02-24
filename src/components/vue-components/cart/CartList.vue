@@ -99,7 +99,6 @@
             return null;
         }
     }
-
     const checkout = async () => {
         let checked = false;
         const productList = await actions.product.checkProductsStock(cartList.value.map((item: CartList) => item.id_product)).then(res=>res.data);
@@ -121,29 +120,33 @@
             checked = true;
         }
         if (checked) {
-            const res = await actions.product.checkOutProducts({ items: cartList.value, total: total.value });
-            if (res) {
-                // const { data } = await actions.payment.getToken({
-                //     email: props.email,
-                //     total: total.value,
-                // })
-                const {error} = await actions.product.soldProducts({updateItems: []});
+                const { data } = await actions.payment.getToken({
+                    email: props.email,
+                    total: total.value,
+                })
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const productItems : any = [];
+                productList?.forEach((product) => {
+                    productItems.push({
+                        id_product: product.id_product,
+                        stock: product.stock - (cartList.value.find((item : CartList) => (item.id_product === product.id_product))).quantity
+                    });
+                })
+                const {error} = await actions.product.soldProducts({updateItems: productItems});
                 if(error) {
-                    alert('Error in transaction, try again later.')
+                    alert("There's something wrong with your purchase, try again.")
                 } else {
-                    // window.snap.pay(data, {
-                    //     autoCloseDelay: 5,
-                    //     onSuccess: async function () {
-                    //         await actions.cart.removeBulkCart(cart.value.map((item) => item.id))
-                    //         cartList.value = [];
-                    //         alert("payment success!");
-                    //     },
+                    window.snap.pay(data, {
+                        autoCloseDelay: 5,
+                        onSuccess: async function () {
+                            await actions.cart.removeBulkCart(cart.value.map((item) => item.id))
+                            cartList.value = [];
+                            alert("payment success!");
+                        },
     
-                    // });
-                    alert('berhasil');
+                    });
                 }
             }
-        }
 
     };
 </script>

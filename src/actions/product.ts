@@ -57,47 +57,38 @@ export const product = {
       if (data) return data;
     },
   }),
-  checkOutProducts: defineAction({
-    input: z.object({
-      items: z.array(z.any()),
-      total: z.number(),
-    }),
-    handler: (input, context) => {
-      context.cookies.set("checkout", JSON.stringify(input.items), {
-        path: "/checkout",
-        secure: true,
-        sameSite: "strict",
-        maxAge: 300,
-      });
-      context.cookies.set("total", JSON.stringify(input.total), {
-        path: "/checkout",
-        secure: true,
-        sameSite: "strict",
-        maxAge: 300,
-      });
-      return true;
-    },
-  }),
+
   soldProducts: defineAction({
     input: z.object({
-      updateItems: z.array(z.object({
-        id_product: z.string(),
-        stock: z.number(),
-      }))
+      updateItems: z.array(
+        z.object({
+          id_product: z.string(),
+          stock: z.number(),
+        })
+      ),
     }),
     handler: async (input) => {
-      // console.log(input);
-      // todo: optimitistic locking
+      console.log(input);
       const lastUpdated = await db.supabase
         .from("products")
-        .select("id_product, updated_at").in('id_product', input.updateItems.map(item=>item.id_product)).then(data => data.data);
-      // console.log(lastUpdated);
-
+        .select("updated_at")
+        .in(
+          "id_product",
+          input.updateItems.map((item) => item.id_product)
+        )
+        .then((data) => data.data);
+      console.log(lastUpdated);
+      // todo: beresin transaksi (bulk update)
       const { error } = await db.supabase
         .from("products")
-        .upsert(input.updateItems)
-        .in('created_at', lastUpdated!)
-        if(error) return new ActionError({message: error.message, code: "CONFLICT", stack: error.stack});
+        .upsert(input.updateItems, { ignoreDuplicates: false })
+        .in("created_at", lastUpdated!);
+      if (error)
+        throw new ActionError({
+          message: error.message,
+          code: "CONFLICT",
+          stack: error.stack,
+        });
     },
   }),
 };
