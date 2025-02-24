@@ -1,4 +1,5 @@
-import { ActionError, defineAction } from "astro:actions"
+
+import { ActionError, defineAction } from "astro/actions/runtime/virtual/server.js";
 import { db } from "src/lib/database"
 
 export interface Transactions {
@@ -9,6 +10,7 @@ export interface Transactions {
 }
 // const tes : trans
 export const transactions = {
+  // todo: create transactions (not finished)
   createTransaction: defineAction({
     handler: async (input : Transactions) => {
       const { error } = await db.supabase
@@ -18,7 +20,6 @@ export const transactions = {
         message: error.message,
         code: "BAD_REQUEST",
       })
-
     }
   })
 }

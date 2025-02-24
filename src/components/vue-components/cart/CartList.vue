@@ -107,7 +107,9 @@
                 if (item.stock === 0) {
                     alert(`${item.title} is out of stock! \nRemoved from cart.`);
                     const index = cartList.value.findIndex((prop: CartList) => prop.id_product === item.id_product);
+                    actions.cart.removeCart({id: cartList.value[index].id})
                     cartList.value.splice(index, 1);
+                    return;
                 }
             });
             cartList.value.forEach((item: CartList) => {
@@ -129,7 +131,7 @@
                 productList?.forEach((product) => {
                     productItems.push({
                         id_product: product.id_product,
-                        stock: product.stock - (cartList.value.find((item : CartList) => (item.id_product === product.id_product))).quantity
+                        stock: product.stock - (cartList.value.find((item : CartList) => (item.id_product === product.id_product)))?.quantity || 0
                     });
                 })
                 const {error} = await actions.product.soldProducts({updateItems: productItems});
