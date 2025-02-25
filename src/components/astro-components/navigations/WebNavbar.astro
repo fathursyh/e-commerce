@@ -2,7 +2,6 @@
 import ThemeController from "@/react-components/composables/ThemeController";
 import UserMenu from "@components/astro-components/navigations/UserMenu.astro";
 import NavbarCart from "@components/vue-components/navigations/NavbarCart.vue";
-import { SquareArrowOutUpRight } from "lucide-react";
 const { auth, user_id } = Astro.locals;
 
 
@@ -20,7 +19,7 @@ const { auth, user_id } = Astro.locals;
 			<NavbarCart id={user_id!} client:idle/>
 			<UserMenu />
 			:
-			<a href="/login" class="ms-4 inline-block hover:underline rounded-full">Login <SquareArrowOutUpRight className="w-4 h-4 inline" /> </a>
+			<a href="/login" class="ms-4 inline-block hover:underline rounded-full">Login</a>
 		}
 	</div>
 </nav>
