@@ -68,7 +68,6 @@ export const product = {
       ),
     }),
     handler: async (input) => {
-      console.log(input);
       const lastUpdated = await db.supabase
         .from("products")
         .select("updated_at")
@@ -77,8 +76,6 @@ export const product = {
           input.updateItems.map((item) => item.id_product)
         )
         .then((data) => data.data);
-      console.log(lastUpdated);
-      // todo: beresin transaksi (bulk update)
       const { error } = await db.supabase
         .from("products")
         .upsert(input.updateItems, { ignoreDuplicates: false })

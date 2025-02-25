@@ -1,8 +1,7 @@
 import type { APIContext, MiddlewareNext } from "astro";
-import { sequence } from "astro:middleware";
 import { db } from "src/lib/database";
 
-async function validation(context: APIContext, next: MiddlewareNext) {
+export async function onRequest(context: APIContext, next: MiddlewareNext) {
   if (!context.url.pathname.startsWith("/api/")) {
     const accessToken = context.cookies.get("sb-access-token");
     const refreshToken = context.cookies.get("sb-refresh-token");
@@ -50,5 +49,3 @@ async function validation(context: APIContext, next: MiddlewareNext) {
   return next();
 }
 
-
-export const onRequest = sequence(validation);
