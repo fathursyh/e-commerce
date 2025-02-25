@@ -10,9 +10,9 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/netlify": "^6.2.1",
     "@astrojs/react": "^4.2.0",
     "@astrojs/tailwind": "^6.0.0",
-    "@astrojs/vercel": "^8.0.8",
     "@astrojs/vue": "^5.0.6",
     "@nanostores/react": "^0.8.4",
     "@nanostores/vue": "^0.11.0",
