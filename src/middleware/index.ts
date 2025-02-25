@@ -2,6 +2,7 @@ import type { APIContext, MiddlewareNext } from "astro";
 import { db } from "src/lib/database";
 
 export async function onRequest(context: APIContext, next: MiddlewareNext) {
+  console.log(context.url);
   if (!context.url.pathname.startsWith("/api/")) {
     const accessToken = context.cookies.get("sb-access-token");
     const refreshToken = context.cookies.get("sb-refresh-token");
