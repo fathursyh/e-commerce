@@ -7,6 +7,8 @@ import react from '@astrojs/react';
 
 import commonjs from 'vite-plugin-commonjs';
 
+import vercel from '@astrojs/vercel';
+
 export default defineConfig({
   trailingSlash: 'ignore',
   output: 'server',
@@ -14,10 +16,11 @@ export default defineConfig({
   security: {
     checkOrigin: true
   },
+
   vite: {
     plugins: [commonjs()],
   },
 
   integrations: [vue(), tailwind(), react() ],
-
+  adapter: vercel({isr: true}),
 });
