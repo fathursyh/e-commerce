@@ -22,6 +22,5 @@ export default defineConfig({
   integrations: [vue(), tailwind(), react() ],
   adapter: netlify({
     imageCDN: true,
-    edgeMiddleware: true
   }),
 });
