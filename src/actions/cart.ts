@@ -1,5 +1,5 @@
 import { z } from "astro/zod";
-import { defineAction } from "astro:actions";
+import { ActionError, defineAction } from "astro:actions";
 import { db } from "src/lib/database";
 
 export const cart = {
@@ -18,7 +18,7 @@ export const cart = {
   }),
   getCartData: defineAction({
     handler: async (input, context) => {
-      if (!input) console.log(input);
+      console.log(input);
       const { data } = await db.supabase
         .from("carts")
         .select()
@@ -52,7 +52,10 @@ export const cart = {
           id_product: input.id_product,
           quantity: input.quantity,
         });
-        if (error) console.log(error);
+        if (error) throw new ActionError({
+          message: error.message, 
+          code: "BAD_REQUEST"
+        })
       }
     },
   }),

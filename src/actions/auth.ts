@@ -22,6 +22,12 @@ export const auth = {
       const { error } = await db.supabase.auth.signUp({
         email,
         password,
+        options: {
+          data: {
+            fullname: input.name,
+            isAdmin: false,
+          }
+        }
       });
 
       if (error) {

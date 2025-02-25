@@ -14,7 +14,7 @@ const product : ProductType = (data! !== undefined) && Object.assign(data!);
 
 <MainLayout>
   <div class="2xl:min-h-[81vh] xl:min-h-[77vh]">
-    <ProductDetail product={product} id={user_id} client:load>
+    <ProductDetail product={product} id={user_id} server:defer client:load>
       <ShowToast text="Item has been added to your cart!" client:load />
     </ProductDetail>
   </div>
