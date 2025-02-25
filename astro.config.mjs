@@ -5,8 +5,9 @@ import vue from '@astrojs/vue';
 import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
 
-import netlify from '@astrojs/netlify';
 import commonjs from 'vite-plugin-commonjs';
+
+import vercel from '@astrojs/vercel';
 
 export default defineConfig({
   trailingSlash: 'ignore',
@@ -15,13 +16,11 @@ export default defineConfig({
   security: {
     checkOrigin: true
   },
+
   vite: {
     plugins: [commonjs()],
   },
 
   integrations: [vue(), tailwind(), react() ],
-  adapter: netlify({
-    imageCDN: true,
-    edgeMiddleware: true
-  }),
+  adapter: vercel({isr: true, edgeMiddleware: true}),
 });
